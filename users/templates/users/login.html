@@ -1,0 +1,19 @@
+{% extends 'shablons/base.html' %}
+{% load static %}
+
+{% block content %}
+	<body>
+		<main>
+			<form method="post" class="form_user">
+				{% csrf_token %}
+				{{ form.username }}<br>
+				{{ form.password }}<br>
+				<span>{{ error }}</span>
+				<button type='Enter' class='btn_form btn-primary'>Submit</button>
+			</form> 
+		</main>
+	</body>
+
+{% endblock %}
+
+

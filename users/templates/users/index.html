@@ -1,0 +1,126 @@
+{% extends 'shablons/base.html' %}
+{% load static %}
+{% block content %}
+	<link rel="stylesheet" type="text/css" href="{% static "users/users.css" %}">
+	<main class="main">
+		<content class="content_user">
+            <div class="img_exit">
+                <img src="{{ user.img.url }}" alt="ava" class="img_ava">
+
+                <button onclick="exit(this)" class="btn_exit">Exit</button>
+            </div>
+			<form class="user_account" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+
+				<div class="settings">
+					<div class="form_pole">
+						<h2>Name: </h2>{{ form.username }}
+					</div>
+					<div class="form_pole">
+						<h3>First name: </h3>{{ form.first_name }}
+					</div>
+					<div class="form_pole">
+						<h3>Last name: </h3>{{ form.last_name }} 
+					</div>
+					<div class="form_pole">
+						<p>Age: </p>{{ form.age }}
+					</div>
+					<div class="form_pole">
+						<p>Email: </p>{{ form.email }}
+					</div>
+					<div class="save_img">
+						<button class="btn_form" type="submit">Save</button>
+
+
+				       	{{ form.img }}
+	                    <label for="input_file_change" class="put_file_change-button">
+	                        <span class="input_file_change-icon-wrapper input_file_change-button">
+	                        	<img class="input_file_change-icon" src="{% static 'films/images/download.png' %}" alt="Выбрать файл" width="20">
+	                        	<span class="input_file_change-button-text">Img user</span>
+	                        </span>
+	                    </label>
+                    </div>
+
+				</div>
+				<div class="data_2">
+				    <h3 class="h3_form">Country</h3>
+				    {{ form.country }}<br>
+				    <span class="error">{{ error }}</span>
+				</div>
+			</form>
+			<div class="like_films_block">
+				<h3 class="like_h3">Like films</h3>
+				<div class="like_films">
+					{% for f in user.like_films.all %}
+						<div class="film_like_bnt">
+							<div class="film_like">
+								<img class="like_film_img" src="{{ f.img_film.url }}" alt="film">
+								<div>
+									<a href="{% url 'film' f.id %}">
+									<p class="name_film">{{ f.name }}</p>
+									{% for g in f.genres.all %}
+									</a>
+										<label class="g_f_l">{{ g }}</label>
+									{% endfor %}
+								</div>
+							</div>
+							<button value="{{ f.id }}" onclick="dont_like(this)" class="dont_like">Dont like</button>
+						</div>
+						<br>
+					{% endfor %}
+				</div>
+			</div>
+		</content>
+		<div class="friends_and_want">
+			<div class="friends_block">
+				<h3 class="friends_h3">Friends</h3>
+				<div class="friend">
+					{% for f in user.friends.all %}
+						<div class="film_like">
+							<img class="friends_img" src="{{ f.img.url }}" alt="friend">
+							<div>
+								<p>{{ f.username }}</p>
+							</div>
+						</div>
+						<br>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="friends_block">
+				<h3 class="friends_h3">Friends want add</h3>
+				<div class="friend">
+					{% for f in user.friends_want_add.all %}
+						<div class="f_b">
+							<div class="film_like">
+								<img class="friends_img" src="{{ f.img.url }}" alt="friend">
+								<div>
+									<p>{{ f.name }}</p>
+								</div>
+								
+							</div>
+							<div class="btns">
+								<button value="{{ f.id }}" onclick="btn_friend_add(this)" class="btn_add">Add</button>
+								<button value="{{ f.id }}" onclick="btn_friend_no_add(this)" class="btn_add">No add</button>
+							</div>
+						</div>
+						<br>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
+		<script>
+			let url_ajax_add = "{% url 'ajax_index_add' %}"
+			let url_ajax_no_add = "{% url 'ajax_index_no_add' %}"
+			let dont_like_url = "{% url 'dont_like' %}"
+			let ajax_exit = "{% url 'ajax_exit' %}"
+
+			let user_username = '{{ user.username }}'
+			let user_first_name = '{{ user.first_name }}'
+			let user_last_name = '{{ user.last_name }}'
+			let user_email = '{{ user.email }}'
+			let user_age = '{{ user.age }}'
+		</script>
+		<script src="{% static 'users/index.js' %}"></script>
+	</main>
+{% endblock %}

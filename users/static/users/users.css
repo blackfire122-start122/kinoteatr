@@ -1,0 +1,219 @@
+.content_user{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	background-color:rgba(0, 0, 0, 0.2);
+}
+.user_account{
+	display: flex;
+}
+.settings{
+	color: cyan;
+	height: 11em;
+	font-size: 1.1em;
+	margin-left: 1em;
+}
+.form_pole{
+	display: flex;
+	justify-content: space-between;
+	background-color:rgba(0, 0, 0, 0.2);
+
+}
+.like_films{
+	width: 20em;
+	overflow-y: scroll;
+	height: 15em;
+	background-color:rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar{
+	width: 0.8em;
+	background-color: #2F2424;
+	border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #3C2F2F;
+    border-radius: 9em;
+}
+
+.film_like{
+	display: flex;
+	color: cyan;
+	font-size: 1.4em;
+}
+.img_ava{
+	height: 15em;
+}
+
+.form_user{
+	display: flex;
+	flex-direction:column;
+	align-items: flex-start;
+	position: relative;
+	left: 40%;
+	width: 11em;
+	background-color: red;
+	font-size: 1.3em;
+	padding: 0.1em;
+}
+
+.form_name, .form_pass, .form_age, .form_email{
+	border-radius: 10px;
+	padding: 0.5em;
+	border: 2px solid blue;
+}
+
+.form_name_change, .form_age_change, .form_email_change{
+	border-radius: 5px;
+	padding: 0.5em;
+	border: 2px solid blue;
+}
+
+.form_img{
+
+	font-size: 1.1em;
+	background-color:rgba(0, 0, 0, 0.2);
+}
+
+.input_file_change {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+ 
+.input_file_change-icon{
+	width: 2em;
+}
+
+.input_file_change-icon-wrapper {
+  margin-right: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-right: 1px solid #fff;
+}
+ 
+.input_file_change-button-text {
+  line-height: 1;
+  margin-top: 1px;
+}
+ 
+.input_file_change-button {
+	width: 100%;
+  max-width: 290px;
+  background: #1bbc9b;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 700;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.btn_form{
+	border-radius: 10px;
+	padding: 0.5em;
+	border: none;
+	background-color: cyan;
+}
+
+html {
+	overflow-x: hidden;
+}
+.like_h3{
+	color: cyan;
+}
+.like_films_block{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.like_film_img{
+	width: 70px;
+}
+.g_f_l{
+	color: white;
+	font-size: 0.7em;
+}
+.img_exit{
+	display: flex;
+	flex-direction: column;
+}
+.btn_exit{
+	font-size: 1.1em;
+	background-color: rgba(0, 0, 0, 0.3);	
+	border: none;
+	border-radius: 1em;
+}
+.friends_and_want{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+.f_b{
+	display: flex;
+	justify-content: space-between;
+}
+.btn_add{
+	width: 10em;
+	height: 2em;
+	font-size: 1.1em;
+	background-color: rgba(0, 0, 0, 0.3);	
+	border: none;
+	border-radius: 0.3em;
+	color: white;
+}
+.btn_add:hover{
+	background-color: rgba(0, 0, 0, 0.2);
+}
+.btns{
+	display: flex;
+	flex-direction: column;
+}
+.dont_like{
+	width: 5em;
+	height: 2em;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);	
+	border: none;
+	border-radius: 0.4em;
+	position: relative;
+	right: 2em;
+	top: 1.7em;
+}
+.dont_like:hover{
+	color: gray;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+.name_film{
+	color: white;
+}
+.film_like_bnt{
+	display: flex;
+	justify-content: space-between;
+}
+.save_img{
+	display: flex;
+	justify-content: space-between;
+}
+.error{
+	color: red;
+	font-size: 1.1em;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 7px;
+}

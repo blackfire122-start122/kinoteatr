@@ -1,0 +1,39 @@
+{% extends 'shablons/base.html' %}
+{% load static %}
+
+{% block content %}
+	<link rel="stylesheet" href="{% static 'users/all_users.css' %}">
+	<main class="main_all_users">
+		<form class="form_all_user" method="post">
+			{% csrf_token %}
+			<input class="find_name" name="find_name" value='{{ value_find }}'></input>
+			<button class="btn_find" type="submit">Find</button>
+		</form>
+		
+		<div class="user_all">
+			{% for u in all_users.all %}
+				{% if u.id != reg.id %}
+					<div class="user">
+						<div class="user_img_name">
+							<img class="img_user_one" src="{{ u.img.url }}" alt="img">
+							<h1>{{ u.username }}</h1>
+						</div>
+						<div class="btns_user">
+							{% if u in reg.friends.all %}
+								<p class='text_if_friend'>Friend</p>
+							{% else %}
+								<button value="{{ u.id }}" id="btn_{{u.username}}" onclick="btn_friend(this)" class="btn_friend">Add friend</button>
+							{% endif %}
+						</div>
+					</div>
+					<br>
+				{% endif %}
+			{% endfor %}
+		</div>
+		<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
+		<script>let url_ajax = "{% url 'ajax_add_friend' %}"
+		</script>
+		<script src="{% static 'users/user_friend.js' %}"></script>
+
+		</main>
+{% endblock %}

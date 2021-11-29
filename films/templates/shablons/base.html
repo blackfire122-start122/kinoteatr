@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="{% static "films/index.css" %}" >
+</head>
+
+	<header class="header">
+		<div class="to_connect">
+			<img src="{% static "films/images/logo.png" %}" alt="logo">
+			
+			<div class="buttons">
+				<a href="{% url 'index'  %}"><button class="links_header_button">Home</button></a><br>
+				<a href="{% url 'about' %}"> <button class="links_header_button">About</button></a><br>
+				<div class="sort">
+					<button class="sort_btn">Sort</button>
+					<div class="link_header_main_sort">
+						<div class="link_header_main">
+							<div class="links_header">
+								<button class="button_link">Типи</button>
+								<div class="link_tgy">
+									<div class="links_vertical">
+										{% for typ in  type.all %}
+											<a href="{% url 'tg' typ str_genre year %}"> {{ typ }}</a>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							<div class="links_header">
+								<button class="button_link">Жанри</button>
+								<div class="link_tgy">
+									<div class="links_vertical">
+										{% for gen in  genre.all %}
+											<a href="{% url 'tg' str_type gen year %}"> {{ gen }}</a>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							<div class="links_header">
+								<button class="button_link">Роки</button>
+								<div class="link_tgy">
+									<div class="links_vertical">
+										{% for y in years %}
+											<a href="{% url 'tg' str_type str_genre y %}">{{ y }}</a>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="name_link_users">
+			<h1 class="site_name">Friend kinoteatr</h1>
+			<a class="link_users" href="{% url 'all_users' %}"> Freind find</a>
+		</div>
+		<div class="to_connect">
+			{% if reg %}
+				<a href="{% url 'users' reg.username %}" class="img_name">
+					<img class="img_user" src="{% static "films/images/user.png" %}" alt="user">
+					<h1 class="name_reg">{{ reg.username }}</h1>
+				</a>
+			{% else %}
+				<img class="img_user" src="{% static "films/images/user.png" %}" alt="user">
+				<div class="req">
+					<a href="{% url 'users_sigin' %}"><button>Sign in</button></a><br>
+					<a href="{% url 'users_log' %}"><button>Login</button></a>
+				</div>
+			{% endif %}
+		</div>
+	</header>
+	<body>
+		{% block content %}
+		{% endblock %}
+		<div class="place"></div>
+	</body>
+	<style>
+		body {
+			background-image: url({% static "films/images/fon.png" %});
+			background-color: #c7b39b;
+		}
+		.req button{
+			background-image: url({% static "films/images/gradient.png" %});
+			background-size: auto;
+		}
+	</style>
+</html>

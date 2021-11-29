@@ -1,0 +1,54 @@
+.btn_friend{
+	background-color:transparent;
+	border: 2px solid cyan;
+	border-radius: 0.3em;
+	width: 37em;
+	display: flex;
+	color: white;
+	font-size: 1.4em;
+}
+
+.btn_friend :hover{
+	background-color:rgba(255, 255, 255, 0.1);
+	border: 2px solid darkcyan;
+	border-radius: 0.3em;
+}
+
+.webrtc{
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+.raw{
+	display: flex;
+}
+#div_message{
+	display: flex;
+	flex-direction: column;
+}
+.message{
+	width: 20em;
+	height: 2em;
+}
+.form_input{
+	display: flex;
+}
+.video_people{
+	width: 14em;
+}
+#chat-log{
+	width: 100%;
+}
+.col-lg-6{
+	font-size: 1.6em;
+	font-weight: bold;
+}
+
+.btn-primary{
+	background-color:#8EABEC;
+	border: none;
+	font-size: 1.5em;
+	border-radius: 0.1em;
+}
+.btn_send{
+	display: none;
+}

@@ -1,0 +1,84 @@
+{% extends 'shablons/base.html' %}
+{% load static %}
+
+{% block content %}
+	<link rel="stylesheet" href="{% static 'users/all_users.css' %}">
+	<main class="main">
+		<div class="sort_set">
+			<p>{{ str_sort }}</p>
+		</div>
+		<div>
+			<form class="form_all_user" method="post">
+				{% csrf_token %}
+				<input name="name_film" value="{{ name_film }}" class="find_name">
+				<button class="btn_find" type="submit">Find</button>
+			</form>
+		</div>
+		<div class="films">
+			{% for f in films %}
+				<div class="film">
+					<div class="on_img_{{ f.id }} on_img">
+						<a href="{% url 'film' f.id %}">
+						<h2>{{ f.name }}</h2><br>
+						</a>
+						<div class="c_l">
+							{% for c in f.country.all %}
+								<p>{{ c }}</p>
+							{% endfor %}
+							{% if reg %}
+								<button onclick="like(this)" value="{{ f.id }}" class="like_btn">Like</button>
+							{% endif %}
+						</div>
+						<p class="year">{{ f.year }}</p>
+					</div>
+					<div class="genres">
+						{% for gen in  f.genres.all %}
+							<p> {{ gen }}  &nbsp;</p>
+						{% endfor %}
+					</div>
+					<div class="actors">
+						{% for act in  f.actors.all %}
+							<p> {{ act }}  &nbsp;</p>
+						{% endfor %}
+					</div>
+					<style>
+						.on_img_{{ f.id  }}{
+							background-image: url({{ f.img_film.url }});
+							background-size: 270px,380px;
+						}
+					</style>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="description">
+			<p>
+				{{ description }}
+			</p>
+		</div>
+		<div class="links">
+			<div>
+				<a href=""><img class="img_links" src="{% static "films/images/facebook.png" %}"></a>
+				<a href=""><img class="img_links" src="{% static "films/images/instagram.png" %}"></a>
+				<a href=""><img class="img_links" src="{% static "films/images/telegram.png" %}"></a>
+			</div>
+			<h1 class="site_name_main">Friend kinoteatr</h1>
+		</div>
+	</main>
+	
+	<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
+	<script>
+		let url_like = "{% url 'like_ajax' %}"
+	</script>
+	<script src="{% static 'films/like.js' %}">	</script>
+
+	<style>
+		body {
+			background-image: url({% static "films/images/fon.png" %});
+			background-color: #c7b39b;
+		}
+		.req button{
+			background-image: url({% static "films/images/gradient.png" %});
+			background-size: auto;
+		}
+	</style>
+{% endblock %}
