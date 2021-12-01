@@ -30,8 +30,6 @@
 					</div>
 					<div class="save_img">
 						<button class="btn_form" type="submit">Save</button>
-
-
 				       	{{ form.img }}
 	                    <label for="input_file_change" class="put_file_change-button">
 	                        <span class="input_file_change-icon-wrapper input_file_change-button">
@@ -40,7 +38,6 @@
 	                        </span>
 	                    </label>
                     </div>
-
 				</div>
 				<div class="data_2">
 				    <h3 class="h3_form">Country</h3>
@@ -120,6 +117,7 @@
 			let user_last_name = '{{ user.last_name }}'
 			let user_email = '{{ user.email }}'
 			let user_age = '{{ user.age }}'
+			let user_country = '{{ user.country }}'
 		</script>
 		<script src="{% static 'users/index.js' %}"></script>
 	</main>

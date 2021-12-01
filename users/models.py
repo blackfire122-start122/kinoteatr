@@ -13,12 +13,12 @@ class Country(models.Model):
 		verbose_name_plural = "Country"
 
 class User(AbstractUser):
-	age = models.PositiveSmallIntegerField(default=0)
-	img = models.ImageField(upload_to="user_img/",default="user_img/default.png")
-	country = models.ManyToManyField(Country,blank=True)
-	like_films = models.ManyToManyField(Films, blank=True)
-	friends = models.ManyToManyField("self", blank=True)
-	friends_want_add = models.ManyToManyField("self", blank=True,symmetrical=False)
+	age = models.PositiveSmallIntegerField(default=0,null=True,blank=False)
+	img = models.ImageField(upload_to="user_img/",default="user_img/default.png",blank=False)
+	country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=False)
+	like_films = models.ManyToManyField(Films, blank=False)
+	friends = models.ManyToManyField("self", blank=False)
+	friends_want_add = models.ManyToManyField("self", blank=False,symmetrical=False)
     
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = []

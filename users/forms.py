@@ -24,9 +24,6 @@ class RegisterForm(UserCreationForm):
 				'class':'form_pass','placeholder':'pass2',}),
 			}
 class ChangeForm(UserChangeForm):
-	country = ModelMultipleChoiceField(queryset=Country.objects.all(),widget=Select(attrs={
-				'class':'form_country_change','id':'country'})
-	)
 	img = FileField(widget=FileInput(attrs={
 				'class':'input_file_change','id':"input_file_change"})
 	)
@@ -50,6 +47,7 @@ class ChangeForm(UserChangeForm):
 			'email':TextInput(attrs={
 				'class':'form_email_change','placeholder':'Email','id':'email'}),
 			}
+
 
 class Users_login_Form(AuthenticationForm):
 	class Meta:

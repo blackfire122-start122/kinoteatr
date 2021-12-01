@@ -3,6 +3,7 @@ first_name_form = document.getElementById('first_name')
 last_name_form = document.getElementById('last_name')
 email_form = document.getElementById('email')
 age_form = document.getElementById('age')
+country_form = document.querySelector('#id_country > option:nth-child(1)')
 
 username_form.value=user_username
 first_name_form.value=user_first_name
@@ -46,3 +47,5 @@ function exit(btn){
 		}
 	})
 }
+
+country_form.text=user_country

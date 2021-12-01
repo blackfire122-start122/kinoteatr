@@ -103,7 +103,7 @@ def user(request,user_name):
             form.save()
         else:
             error = form.errors
-
+        
     form = ChangeForm()
     return render(request,
         "users/index.html",
