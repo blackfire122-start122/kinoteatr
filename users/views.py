@@ -94,9 +94,13 @@ def exit(request):
 def user(request,user_name):
     user_account = user_ret(request)
     error = ""
-    if user_name!=user_account.username:
+    try:
+        if user_name!=user_account.username:
+            return HttpResponseNotFound("Нема такого користувача")  
+    except:
         return HttpResponseNotFound("Нема такого користувача")  
 
+    
     if request.method == "POST":
         form = ChangeForm(request.POST,request.FILES,instance=user_account)
         if form.is_valid():
@@ -151,11 +155,11 @@ def sigin(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            user = authenticate(username=request.POST['username'],password=request.POST['password'])
+            user = User.objects.get(username=request.POST['username'])
             request.session["id"] = user.id
             return redirect('/users/account/'+str(user.username))
         else:
-            error = "Not valid form"
+            form.error = error
     form = RegisterForm()
 
     return render(request, 

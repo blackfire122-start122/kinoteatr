@@ -12,17 +12,19 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class RegisterForm(UserCreationForm):
+	def __init__(self,*args,**kwargs):
+		super().__init__(*args,**kwargs)
+		self.fields['username'].widget = TextInput(attrs={
+				'class':'form_name','placeholder':'username'})
+		self.fields['password1'].widget = PasswordInput(attrs={
+				'class':'form_pass','placeholder':'pass1'})
+		self.fields['password2'].widget = PasswordInput(attrs={
+				'class':'form_pass','placeholder':'pass2'})
+
 	class Meta:
 		model = User
 		fields = ['username','password1','password2']
-		widgets = {
-			'username':TextInput(attrs={
-				'class':'form_name','placeholder':'username',}),
-			'password1':PasswordInput(attrs={
-				'class':'form_pass','placeholder':'pass1',}),
-			'password2':PasswordInput(attrs={
-				'class':'form_pass','placeholder':'pass2',}),
-			}
+	
 class ChangeForm(UserChangeForm):
 	img = FileField(widget=FileInput(attrs={
 				'class':'input_file_change','id':"input_file_change"})
@@ -50,17 +52,17 @@ class ChangeForm(UserChangeForm):
 
 
 class Users_login_Form(AuthenticationForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['username'].widget = TextInput(attrs={
+				'class':'form_name',
+				'placeholder':'Name',
+			})
+		self.fields['password'].widget = PasswordInput(attrs={
+				'class':'form_pass',
+				'placeholder':'pass',
+			})
 	class Meta:
 		model = User
 		fields = ['username','password']
 
-		widgets = {
-			'username':TextInput(attrs={
-				'class':'form_name',
-				'placeholder':'Name',
-				}),
-			'password':PasswordInput(attrs={
-				'class':'form_pass',
-				'placeholder':'pass',
-				}),
-		}
