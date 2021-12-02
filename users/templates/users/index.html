@@ -74,10 +74,13 @@
 				<div class="friend">
 					{% for f in user.friends.all %}
 						<div class="film_like">
-							<img class="friends_img" src="{{ f.img.url }}" alt="friend">
-							<div>
-								<p>{{ f.username }}</p>
+							<div class="img_name_friend">
+								<img class="friends_img" src="{{ f.img.url }}" alt="friend">
+								<div>
+									<p>{{ f.username }}</p>
+								</div>
 							</div>
+							<button value="{{ f.id }}" onclick="btn_no_friend(this)" class="btn_add">No friend</button>
 						</div>
 						<br>
 					{% endfor %}
@@ -111,6 +114,7 @@
 			let url_ajax_no_add = "{% url 'ajax_index_no_add' %}"
 			let dont_like_url = "{% url 'dont_like' %}"
 			let ajax_exit = "{% url 'ajax_exit' %}"
+			let no_friend_ajax = "{% url 'ajax_no_friend' %}"
 
 			let user_username = '{{ user.username }}'
 			let user_first_name = '{{ user.first_name }}'

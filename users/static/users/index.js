@@ -21,6 +21,7 @@ function btn_friend_add(btn){
         }
 	})
 	btn.disabled=true;
+	btn.display='none';
 }
 function btn_friend_no_add(btn){
 	$.ajax({
@@ -29,6 +30,7 @@ function btn_friend_no_add(btn){
 		data: {'id':btn.value},
 	})
 	btn.disabled=true;
+	btn.display='none';
 }
 function dont_like(btn){
 	$.ajax({
@@ -44,6 +46,17 @@ function exit(btn){
 		success: function (data){
 			if(data.status == 200)
 				window.location.href = data.url
+		}
+	})
+}
+
+function btn_no_friend(btn){
+	$.ajax({
+		type: $(this).attr('post'),
+		url: no_friend_ajax,
+		data: {'id':btn.value},
+		success: function (data){
+			console.log(data)
 		}
 	})
 }

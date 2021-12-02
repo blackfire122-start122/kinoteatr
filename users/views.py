@@ -17,10 +17,24 @@ years = [i for i in range(2010,2022)]
 years.append("all")
 years = years[::-1]
 
+def friend_no_index(request):
+    user_account = user_ret(request)
+    if request.is_ajax():
+        try:
+            user_account.friends.remove(User.objects.get(pk=int(request.GET['id'])))
+        except:
+            return JsonResponse({"data_text":"Error"}, status=400)
+        return JsonResponse({"data_text":"OK"}, status=200)
+    return JsonResponse({"data_text":"Error"}, status=400)
+
+
 def dont_like(request):
     user_account = user_ret(request)
     if request.is_ajax():
-        user_account.like_films.remove(Films.objects.get(pk=int(request.GET['id'])))
+        try:
+            user_account.like_films.remove(Films.objects.get(pk=int(request.GET['id']))) 
+        except:
+            return JsonResponse({"data_text":"Error"}, status=400)
         return JsonResponse({"data_text":"OK"}, status=200)
     return JsonResponse({"data_text":"Error"}, status=400)
 
@@ -31,7 +45,7 @@ def friend_no_add_index(request):
             user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
             return JsonResponse({"data_text":"OK"}, status=200)
         except:
-            pass
+            return JsonResponse({"data_text":"Error"}, status=400)
     return JsonResponse({"data_text":"Error"}, status=400)
 
 def friend_add_index(request):
@@ -43,7 +57,7 @@ def friend_add_index(request):
             user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
             return JsonResponse({"data_text":"OK"}, status=200)
         except:
-            pass
+            return JsonResponse({"data_text":"Error"}, status=400)
     return JsonResponse({"data_text":"Error"}, status=400)
 
 def friend_add(request):
