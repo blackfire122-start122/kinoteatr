@@ -6,6 +6,7 @@ let acceptDiv = document.querySelector('#acceptDiv')
 let msg_user = document.querySelector('#messageInput')
 let send_mes_btn = document.querySelector('#sendmesbtn')
 let video_film = document.querySelector('#video_film')
+let img_camera = document.querySelector('#img_camera')
 
 let conn;
 let peerConnection;
@@ -76,7 +77,6 @@ function initialize(username) {
                 event: "candidate",
                 data: event.candidate
             });
-            // console.log('event.candidate', event.candidate)
         }
     };
 
@@ -108,8 +108,7 @@ function initialize(username) {
     }
 
     dataChannel.onclose = function () {
-        console.log("data channel is closed")
-        alert("Your interlocutor has disconnected")
+        console.log("disconnected")
     }
 
     peerConnection.ondatachannel = function (event) {
@@ -202,7 +201,7 @@ function sendMessage() {
     msg_user.value = ''
 }
 
-function my_stream(e) {
+function my_stream() {
     navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
             localStream = stream
@@ -224,18 +223,29 @@ function conn_user(btn){
 }
 
 function turn_camera(btn){
-/*    if (btn.textContent == 'Turn off camera'){
-        btn.textContent = 'Turn on camera'
+    if (btn.value == 'off'){
+        btn.value = 'on'
         btn.style.background = '#8EABEC'
-        // localStream = new MediaStream()
-        // peerConnection.removeTrack()
-        console.log(peerConnection)
+        img_camera.src = camera_none_img
+
+        const senders = peerConnection.getSenders();
+        senders.forEach((sender) => peerConnection.removeTrack(sender));
+        camera.srcObject = undefined
         return
-    }*/
-    btn.textContent = 'Turn off camera'
+    }
+
+    btn.value = 'off'
     btn.style.background = 'red'
-    my_stream(btn)
+    img_camera.src = camera_img
+    my_stream()
+
+    if (friend_name != My_name) {
+        initialize(My_name);
+    }
+    
 }
+
+
 video_film.addEventListener('pause',function(){
     dataChannel.send('pause')
 })

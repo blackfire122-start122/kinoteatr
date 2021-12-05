@@ -51,7 +51,7 @@
 			<div class="webrtc_form" >
 				<div class="form_input">
 					<div class="col-lg-12">
-					    <button onclick='turn_camera(this)' type="button" class="btn btn-success" id="getMedia">Turn on camera</button>
+					    <button onclick='turn_camera(this)' type="button" class="btn btn-success" id="getMedia"><img src="{% static 'films/images/camera_none.png' %}" id='img_camera' class='img_camera'></button>
 					</div>
 				</div>
 				<div class="raw">
@@ -97,6 +97,8 @@
 
 			<script>
 				let My_name = '{{ reg.username }}'
+				let camera_img = "{% static 'films/images/camera.png' %}"
+				let camera_none_img = "{% static 'films/images/camera_none.png' %}"
 			</script>
 			<script src="{% static "films/index.js" %}"></script>
 		</div>
