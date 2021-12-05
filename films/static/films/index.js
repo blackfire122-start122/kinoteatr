@@ -5,11 +5,13 @@ let chatLog = document.querySelector('#chat-log')
 let acceptDiv = document.querySelector('#acceptDiv')
 let msg_user = document.querySelector('#messageInput')
 let send_mes_btn = document.querySelector('#sendmesbtn')
+let video_film = document.querySelector('#video_film')
 
 let conn;
 let peerConnection;
 let dataChannel;
 let friend_name = My_name
+let currentTime_film = false
 
 const camera = document.querySelector('#myVideo');
 
@@ -36,7 +38,6 @@ function connect() {
         initialize(My_name);
     })
     conn.addEventListener('message', onmessage)
-
     connectButton.style.display = 'none'
     send_mes_btn.style.display = 'inline-block'
 }
@@ -88,6 +89,21 @@ function initialize(username) {
     }
 
     dataChannel.onmessage = function (event) {
+        if (event.data=='pause'){
+            video_film.pause()
+        }else if (event.data=='play'){
+            video_film.play()
+        }else{
+            data = event.data.split(":")
+            if (data[0]=='seeked') {
+                currentTime_film = true
+                video_film.currentTime = data[1]
+                setTimeout(function (){
+                    currentTime_film = false
+                },100)
+            }
+            return
+        }
         chatLog.value += (event.data + '\n')
     }
 
@@ -99,7 +115,10 @@ function initialize(username) {
     peerConnection.ondatachannel = function (event) {
         dataChannel = event.channel
     }
+    CreateOffer()
+}
 
+function CreateOffer(){
     if (localStream) {
         localStream.getTracks().forEach(track => {
             peerConnection.addTrack(track, localStream)
@@ -119,9 +138,6 @@ function initialize(username) {
 
 function handleOffer(offer) {
     let remoteStream = new MediaStream();
-    localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-    })
 
     let remoteVideo = document.querySelector('#callVideo')
     remoteVideo.srcObject = remoteStream
@@ -129,7 +145,6 @@ function handleOffer(offer) {
     window.stream = remoteStream
 
     peerConnection.addEventListener('track', async (event) => {
-        console.log('Adding track: ', event.track)
         remoteStream.addTrack(event.track, remoteStream)
     })
 
@@ -154,7 +169,6 @@ function handleOffer(offer) {
 
 function handleCandidate(candidate) {
     peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    console.log("handleCandidate!!")
 }
 
 function handleAnswer(answer) {
@@ -165,10 +179,9 @@ function handleAnswer(answer) {
     window.stream = remoteStream;
 
     peerConnection.addEventListener('track', async (event) => {
-        console.log('Adding track: ', event.track)
         remoteStream.addTrack(event.track, remoteStream)
     })
-
+    
     remoteVideo.play()
 
     peerConnection.setRemoteDescription(new RTCSessionDescription(answer))
@@ -198,10 +211,8 @@ function my_stream(e) {
 
             let audioTrack = stream.getAudioTracks()
             let videoTrack = stream.getVideoTracks()
-            //audioTrack[0].enabled = false
+            // audioTrack[0].enabled = false
             videoTrack[0].enabled = true
-
-            console.log('stream', stream)
         }).catch(error => {
         console.log('Error media', error)
     })
@@ -213,5 +224,26 @@ function conn_user(btn){
 }
 
 function turn_camera(btn){
+/*    if (btn.textContent == 'Turn off camera'){
+        btn.textContent = 'Turn on camera'
+        btn.style.background = '#8EABEC'
+        // localStream = new MediaStream()
+        // peerConnection.removeTrack()
+        console.log(peerConnection)
+        return
+    }*/
+    btn.textContent = 'Turn off camera'
+    btn.style.background = 'red'
     my_stream(btn)
 }
+video_film.addEventListener('pause',function(){
+    dataChannel.send('pause')
+})
+video_film.addEventListener('play',function(){
+    dataChannel.send('play')
+})
+video_film.addEventListener('seeked',function(){
+    if (!currentTime_film) {
+        dataChannel.send('seeked:' + video_film.currentTime)
+    }
+})
