@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-	<link rel="stylesheet" type="text/css" href="{% static "films/web_rtc_style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "films/films.css" %}">
 	<main class="main main_film">
 		<content class="content_film">
 			<div class="film_info">
@@ -45,8 +45,12 @@
 			<video id="video_film" class="video_film" controls preload="auto" data-setup="{}">
 				<source src="{% url 'stream' film.id %}">
 			</video>
+			<div class="on_video">
+				<h1>On video</h1>
+			</div>
 		</div>
 		{% if reg %}
+		<link rel="stylesheet" type="text/css" href="{% static "films/web_rtc_style.css" %}">
 		<div class="webrtc">
 			<div class="webrtc_form" >
 				<div class="form_input">
@@ -54,19 +58,9 @@
 					    <button onclick='turn_camera(this)' type="button" class="btn btn-success" id="getMedia"><img src="{% static 'films/images/camera_none.png' %}" id='img_camera' class='img_camera'></button>
 					</div>
 				</div>
-				<div class="raw">
-				    <div class="col-lg-6">
-				    	<p>You: </p>
-				    	<video class="video_people" autoplay="true" width="200" id="myVideo"></video>
-				    </div>
+				
+				<div class="raw" id="raw"></div>
 
-				    <div class="col-lg-6">
-				      <div id="acceptDiv">
-				    	<p>Caller: </p>
-				        <video class="video_people" autoplay="true" width="200" id="callVideo"></video>
-				      </div>
-				    </div>
-				</div>
 		  		<button id="connectButton" type="button" class="btn btn-primary" onclick='connect()'>Create group</button>
 				<div class="friends_block">
 					<h3 class="friends_h3">Friends</h3>
@@ -97,6 +91,7 @@
 
 			<script>
 				let My_name = '{{ reg.username }}'
+				let My_id = '{{ reg.id }}'
 				let camera_img = "{% static 'films/images/camera.png' %}"
 				let camera_none_img = "{% static 'films/images/camera_none.png' %}"
 			</script>

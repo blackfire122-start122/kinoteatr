@@ -237,13 +237,6 @@ body{
 ::-webkit-scrollbar-thumb:hover {
     background-color: #253861;
 }
-.video{
-	position:relative;
-	left: 12%;
-}
-.video_film{
-	width: 900px;
-}
 
 #btnCreateChat{
 	display: hidden;

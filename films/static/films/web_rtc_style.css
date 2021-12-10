@@ -19,7 +19,18 @@
 	background-color: rgba(0, 0, 0, 0.2);
 }
 .raw{
-	display: flex;
+	display: grid;
+	flex-wrap: wrap;
+	grid-template-columns: repeat(4, 1fr);
+	justify-items: center;
+	grid-column-gap: 5px;
+	grid-row-gap: 5px;
+
+}
+.video_people{
+	width: 12.5em;
+	border: 2px solid black;
+	border-radius: 5px;
 }
 #div_message{
 	display: flex;
@@ -32,9 +43,7 @@
 .form_input{
 	display: flex;
 }
-.video_people{
-	width: 14em;
-}
+
 #chat-log{
 	width: 100%;
 }

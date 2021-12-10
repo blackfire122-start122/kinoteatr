@@ -114,9 +114,12 @@ def user(request,user_name):
     except:
         return HttpResponseNotFound("Нема такого користувача")  
 
-    
     if request.method == "POST":
-        form = ChangeForm(request.POST,request.FILES,instance=user_account)
+        r_copy = request.POST
+        if not r_copy['country']:
+            r_copy = request.POST.copy()
+            r_copy['country'] = user_account.country
+        form = ChangeForm(r_copy,request.FILES,instance=user_account)
         if form.is_valid():
             form.save()
         else:

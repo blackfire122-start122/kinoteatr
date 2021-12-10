@@ -7,14 +7,14 @@ let msg_user = document.querySelector('#messageInput')
 let send_mes_btn = document.querySelector('#sendmesbtn')
 let video_film = document.querySelector('#video_film')
 let img_camera = document.querySelector('#img_camera')
+let raw = document.querySelector('#raw')
 
 let conn;
 let peerConnection;
 let dataChannel;
 let friend_name = My_name
 let currentTime_film = false
-
-const camera = document.querySelector('#myVideo');
+let id_call
 
 let localStream = new MediaStream()
 
@@ -39,6 +39,10 @@ function connect() {
         initialize(My_name);
     })
     conn.addEventListener('message', onmessage)
+    // send({
+    //     peer: username,
+    //     message: "My id",
+    // });
     connectButton.style.display = 'none'
     send_mes_btn.style.display = 'inline-block'
 }
@@ -101,6 +105,13 @@ function initialize(username) {
                 setTimeout(function (){
                     currentTime_film = false
                 },100)
+            }else if (data[0]=='first_connect'){
+                id_call = data[1]
+                console.log(My_id,id_call)
+            }else if(data[0]=='no_video'){
+                let video_call_stream = document.getElementById(data[1])
+                raw.removeChild(video_call_stream)
+                console.log("del")
             }
             return
         }
@@ -113,6 +124,7 @@ function initialize(username) {
 
     peerConnection.ondatachannel = function (event) {
         dataChannel = event.channel
+        dataChannel.send('first_connect:' + My_id)
     }
     CreateOffer()
 }
@@ -137,17 +149,12 @@ function CreateOffer(){
 
 function handleOffer(offer) {
     let remoteStream = new MediaStream();
-
-    let remoteVideo = document.querySelector('#callVideo')
-    remoteVideo.srcObject = remoteStream
-
+    add_videoelement(remoteStream,id_call)
     window.stream = remoteStream
 
     peerConnection.addEventListener('track', async (event) => {
         remoteStream.addTrack(event.track, remoteStream)
     })
-
-    remoteVideo.play()
 
     peerConnection.setRemoteDescription(offer)
         .then(() => {
@@ -172,16 +179,12 @@ function handleCandidate(candidate) {
 
 function handleAnswer(answer) {
     remoteStream = new MediaStream()
-    let remoteVideo = document.querySelector('#callVideo')
-    remoteVideo.srcObject = remoteStream
-
+    add_videoelement(remoteStream,id_call)
     window.stream = remoteStream;
 
     peerConnection.addEventListener('track', async (event) => {
         remoteStream.addTrack(event.track, remoteStream)
     })
-    
-    remoteVideo.play()
 
     peerConnection.setRemoteDescription(new RTCSessionDescription(answer))
         .then(() => {
@@ -205,9 +208,7 @@ function my_stream() {
     navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
             localStream = stream
-            camera.srcObject = localStream
-            camera.muted = true
-
+            add_videoelement(localStream,0)
             let audioTrack = stream.getAudioTracks()
             let videoTrack = stream.getVideoTracks()
             // audioTrack[0].enabled = false
@@ -224,13 +225,18 @@ function conn_user(btn){
 
 function turn_camera(btn){
     if (btn.value == 'off'){
+        let video_my_stream = document.querySelector('#my_stream_div')
+
         btn.value = 'on'
         btn.style.background = '#8EABEC'
         img_camera.src = camera_none_img
 
-        const senders = peerConnection.getSenders();
-        senders.forEach((sender) => peerConnection.removeTrack(sender));
-        camera.srcObject = undefined
+        localStream.getTracks().forEach(function(track) {
+          track.stop()
+        })
+        raw.removeChild(video_my_stream)
+        dataChannel.send('no_video:'+My_id)
+        
         return
     }
 
@@ -239,12 +245,36 @@ function turn_camera(btn){
     img_camera.src = camera_img
     my_stream()
 
-    if (friend_name != My_name) {
-        initialize(My_name);
-    }
+    // if (friend_name != My_name) {
+    //     initialize(My_name);
+    // }
     
 }
 
+function add_videoelement(srcObject_video,id=1) {
+    let video_element = document.createElement('video');
+    video_element.className = "video_people"
+    video_element.autoplay = true
+    video_element.width = 200
+    video_element.id = id
+    video_element.srcObject = srcObject_video
+    video_element.muted = true
+
+    if (video_element.id==0){
+        let div = document.createElement('div');
+        let h2 = document.createElement('h2');
+        h2.textContent = "You"
+        h2.style.position = 'absolute'
+        h2.style.color = "white"
+        div.id = 'my_stream_div'
+        div.append(h2)
+        div.append(video_element)
+        raw.append(div)
+        return
+    }
+
+    raw.append(video_element)
+}
 
 video_film.addEventListener('pause',function(){
     dataChannel.send('pause')
@@ -256,4 +286,8 @@ video_film.addEventListener('seeked',function(){
     if (!currentTime_film) {
         dataChannel.send('seeked:' + video_film.currentTime)
     }
+})
+
+video_film.addEventListener('webkitfullscreenchange', function(){
+    console.log(video_film.style)
 })

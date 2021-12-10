@@ -1,0 +1,16 @@
+.video_film{
+	width: 900px;
+	z-index: 0;
+}
+.on_video{
+	color: white;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	z-index: 2147483647;
+
+}
+.video{
+	position:relative;
+	left: 12%;
+}

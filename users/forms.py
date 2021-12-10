@@ -7,7 +7,8 @@ from django.forms import(ModelForm,
 						ModelMultipleChoiceField, 
 						Select,
 						FileField,
-						IntegerField)
+						IntegerField,
+						ModelChoiceField)
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -26,12 +27,13 @@ class RegisterForm(UserCreationForm):
 		fields = ['username','password1','password2']
 	
 class ChangeForm(UserChangeForm):
-	img = FileField(widget=FileInput(attrs={
+	img = FileField(required=False,widget=FileInput(attrs={
 				'class':'input_file_change','id':"input_file_change"})
 	)
-	age = IntegerField(widget=TextInput(attrs={
+	age = IntegerField(required=False,widget=TextInput(attrs={
 				'class':'form_age_change','placeholder':'Age','id':'age'})
 	)
+	country = ModelChoiceField(Country.objects.all(),required=False)
 	class Meta:
 		model = User
 		fields = ['username',
