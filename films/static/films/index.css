@@ -191,14 +191,7 @@ body{
 .genres, .actors, .type{
 	display: flex;
 }
-.img_film_f{
-	width: 300px;
-	height: 100%;
-	min-height: 350px;
-}
-.film_info{
-	display: flex;
-}
+
 .film_desc{
 	color: #3F8C98 ;
 	font-size: 1.2em;
@@ -216,12 +209,6 @@ body{
 	font-weight: bold;
 	background-color: rgba(0, 0, 0, 0.3);
 	text-align: center;
-}
-.actors_film{
-	display: flex;
-	overflow-x: auto;
-	background-color: rgba(0, 0, 0, 0.2);
-	width: 400px;
 }
 ::-webkit-scrollbar {
     width: 10px;

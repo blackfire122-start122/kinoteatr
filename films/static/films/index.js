@@ -8,6 +8,7 @@ let send_mes_btn = document.querySelector('#sendmesbtn')
 let video_film = document.querySelector('#video_film')
 let img_camera = document.querySelector('#img_camera')
 let raw = document.querySelector('#raw')
+let friend = document.querySelector('#friends_block')
 
 let conn;
 let peerConnection;
@@ -45,6 +46,7 @@ function connect() {
     // });
     connectButton.style.display = 'none'
     send_mes_btn.style.display = 'inline-block'
+    friend.style.display = 'none'
 }
 
 function onmessage(msg) {

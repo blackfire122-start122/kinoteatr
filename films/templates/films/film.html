@@ -34,7 +34,11 @@
 					</div>
 					<br>
 					<p>Year: {{ film.year }}</p><br>
-					<p>Launge: {{ film.country }}</p><br>
+					<label>Country: </label>
+					{% for c in film.country.all %}
+						<label>{{ c }}</label>
+					{% endfor %}
+					
 				</div>
 				<footer class="footer_film_all">
 				{{ film.name }}<br>
@@ -62,7 +66,7 @@
 				<div class="raw" id="raw"></div>
 
 		  		<button id="connectButton" type="button" class="btn btn-primary" onclick='connect()'>Create group</button>
-				<div class="friends_block">
+				<div class="friends_block" id="friends_block">
 					<h3 class="friends_h3">Friends</h3>
 					<div class="friend">
 						{% for f in reg.friends.all %}
@@ -80,7 +84,7 @@
 			</div>
 
 		  	<div id="div_message">
-			    <textarea class="form-control" id="chat-log" cols="100" rows="40"></textarea>
+			    <textarea class="form-control" id="chat-log" cols="100" rows="30"></textarea>
 			    <div>
 				    <input id="messageInput" class="form-control message" placeholder="message">
 				    <button id="sendmesbtn" type="submit" class="btn_send btn-primary" onclick='sendMessage()'>SEND</button>

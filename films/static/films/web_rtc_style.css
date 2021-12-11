@@ -65,3 +65,19 @@
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.2);
 }
+@media (max-width: 360px){
+	.webrtc{
+		flex-direction: column;
+	}
+	.btn_friend{
+		font-size: 1.2em;
+		flex-direction: column;
+	}
+	.friend{
+		display: flex;
+		width: 100%;
+		height: 100%;
+		flex-direction: row;
+		overflow-y: hidden;
+	}
+}
