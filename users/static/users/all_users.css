@@ -68,3 +68,28 @@
 	text-align: center;
 	opacity: 0.3;
 }
+
+@media (max-width: 360px){
+	.btn_find{
+		width: 20%;
+	}
+	.img_user_one{
+		width: 140px;
+		height: 100%;
+	}
+	.btns_user{
+		position: relative;
+		right: 25%;
+	}
+	.btn_friend{
+		position: relative;
+		top: 50%;
+		right: 35%;
+		width: 5em;
+	}
+	.text_if_friend{
+		position: relative;
+		top: 50%;
+		left: 15%;
+	}
+}

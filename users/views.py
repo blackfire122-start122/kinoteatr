@@ -76,7 +76,7 @@ def all_users(request):
     value_find = 'all'
     if request.method == "POST":
         try:
-            users=User.objects.filter(name=request.POST['find_name'])
+            users=User.objects.filter(username=request.POST['find_name'])
             value_find = request.POST['find_name']
         except:
             users = {}

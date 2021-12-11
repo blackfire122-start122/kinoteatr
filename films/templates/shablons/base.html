@@ -7,10 +7,9 @@
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="{% static "films/index.css" %}" >
 </head>
-
 	<header class="header">
 		<div class="to_connect">
-			<img src="{% static "films/images/logo.png" %}" alt="logo">
+			<img class="img_logo" src="{% static "films/images/logo.png" %}" alt="logo">
 			
 			<div class="buttons">
 				<a href="{% url 'index'  %}"><button class="links_header_button">Home</button></a><br>
@@ -20,7 +19,7 @@
 					<div class="link_header_main_sort">
 						<div class="link_header_main">
 							<div class="links_header">
-								<button class="button_link">Типи</button>
+								<button value="0" class="button_link" onclick="btn_sorts(this)">Типи</button>
 								<div class="link_tgy">
 									<div class="links_vertical">
 										{% for typ in  type.all %}
@@ -30,7 +29,7 @@
 								</div>
 							</div>
 							<div class="links_header">
-								<button class="button_link">Жанри</button>
+								<button value="1" class="button_link" onclick="btn_sorts(this)">Жанри</button>
 								<div class="link_tgy">
 									<div class="links_vertical">
 										{% for gen in  genre.all %}
@@ -40,7 +39,7 @@
 								</div>
 							</div>
 							<div class="links_header">
-								<button class="button_link">Роки</button>
+								<button value="2" class="button_link" onclick="btn_sorts(this)">Роки</button>
 								<div class="link_tgy">
 									<div class="links_vertical">
 										{% for y in years %}
@@ -55,7 +54,7 @@
 			</div>
 		</div>
 		<div class="name_link_users">
-			<h1 class="site_name">Friend kinoteatr</h1>
+			<h1 class="site_name">Kinofriend</h1>
 			<a class="link_users" href="{% url 'all_users' %}"> Freind find</a>
 		</div>
 		<div class="to_connect">
@@ -88,4 +87,5 @@
 			background-size: auto;
 		}
 	</style>
+	<script src="{% static "films/style.js" %}"></script>
 </html>

@@ -364,3 +364,49 @@ body{
 .links_header_button:hover, .sort_btn:hover, .link_users:hover{
 	color: #ADC523;
 }
+
+@media (max-width: 360px){
+	.site_name{
+		font-size: 1.4em;
+		position: relative;
+		left: 15%;
+	}
+	.link_users{
+		font-size: 1.1em;
+		position: relative;
+		left: 15%;
+		text-decoration: underline;
+	}
+	.buttons .links_header_button{
+		font-size: 1.5em;
+	}
+	.sort{
+		font-size: 0.9em;
+	}
+	.btn_find{
+		width: 50%;
+	}
+	.header{
+		height:5.5em;
+	}
+	.name_reg{
+		top: 7%;
+	}
+	.link_header_main{
+		font-size: 0.8em;
+	}
+	.sort_btn{
+		display: none;
+	}
+	.film{
+		margin: 0.2em;
+	}
+	.link_header_main_sort{
+		display: inline-block;
+	}
+	.autor_about{
+		left: 0%;
+		top: 1.3em;
+		font-size: 1.9em;
+	}
+}

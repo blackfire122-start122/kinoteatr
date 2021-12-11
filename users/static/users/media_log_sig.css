@@ -1,0 +1,15 @@
+@media (max-width: 360px){
+	.img_user{
+		display: none;
+	}
+	.req button{
+		position: relative;
+		left: 10px;
+		font-size: 1.1em;
+		width: 4em;
+	}
+	.form_user{
+		width: 20em;
+		left: 0%;
+	}
+}

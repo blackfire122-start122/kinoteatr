@@ -214,3 +214,38 @@ html {
 .img_name_friend{
 	display: flex;
 }
+
+@media (max-width: 360px){
+	.friends_and_want{
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.content_user{
+		flex-direction: column;
+	}
+	.btn_exit{
+		font-size: 1.7em;
+	}
+	.user_account{
+		flex-direction: column;
+		font-size: 0.8em;
+	}
+	.like_films_block{
+		margin-top: 30%;
+		width: 100%;
+	}
+	.like_films{
+		width: 100%;
+	}
+	.save_img{
+		margin-top: 20%;
+	}
+	.data_2{
+		display: flex;
+		margin-top: 2%;
+	}
+	.friend{
+		overflow-x: hidden;
+	}
+}
