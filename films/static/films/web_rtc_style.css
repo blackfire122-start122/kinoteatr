@@ -80,4 +80,10 @@
 		flex-direction: row;
 		overflow-y: hidden;
 	}
+	.raw{
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.video_people{
+		width: 8em;
+	}
 }

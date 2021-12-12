@@ -272,6 +272,7 @@ function add_videoelement(srcObject_video,id=1) {
         div.append(h2)
         div.append(video_element)
         raw.append(div)
+        console.log("here")
         return
     }
 
