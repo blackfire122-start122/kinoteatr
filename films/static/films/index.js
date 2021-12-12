@@ -294,3 +294,15 @@ video_film.addEventListener('seeked',function(){
 video_film.addEventListener('webkitfullscreenchange', function(){
     console.log(video_film.style)
 })
+
+function show_serias(btn){
+    sezon_ser = document.getElementById(btn.value)
+    sez=document.getElementById("sezons")
+    sez.style.display='none'
+    sezon_ser.style.display="flex"
+    
+}
+function video_seria(btn){
+    console.log(btn.value)
+    video_film.src = btn.value
+}

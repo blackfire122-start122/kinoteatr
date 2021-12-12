@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import IO, Generator
 from django.shortcuts import get_object_or_404
 
-from .models import Films
+from .models import Films, Serias
 
 
 def ranged(file: IO[bytes],start: int = 0,end: int = None,block_size: int = 8192,) -> Generator[bytes, None, None]:
@@ -23,8 +23,12 @@ def ranged(file: IO[bytes],start: int = 0,end: int = None,block_size: int = 8192
         file.close()
 
 
-def open_file(request, video_pk: int) -> tuple:
-    _video = get_object_or_404(Films, pk=video_pk)
+def open_file(request,typef, video_pk) -> tuple:
+    if typef=="Serial":
+        _video = get_object_or_404(Serias, pk=video_pk)
+        print("good")
+    else:
+        _video = get_object_or_404(Films, pk=video_pk)
 
     path = Path(_video.file.path)
 

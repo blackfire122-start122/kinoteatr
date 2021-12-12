@@ -17,10 +17,7 @@
 						{% endfor %}
 					</div>
 					<div class="type">
-						<p>Types: &nbsp;</p>
-						{% for type in  film.typef.all %}
-							<p> {{ type }}  &nbsp;</p>
-						{% endfor %}
+						<p>Types: {{ film.typef }}</p>
 					</div>
 					<br>
 					<p>Actors</p>
@@ -45,14 +42,45 @@
 				{{ film.description }}</footer><br>
 			</div>
 		</content>
-		<div class="video">
-			<video id="video_film" class="video_film" controls preload="auto" data-setup="{}">
-				<source src="{% url 'stream' film.id %}">
-			</video>
-			<div class="on_video">
-				<h1>On video</h1>
+		{% if film.typef %}
+			<div class="video">
+				<video id="video_film" class="video_film" controls preload="auto" data-setup="{}">
+					<source src="{% url 'stream' "Film" film.id %}">
+				</video>
+				<div class="on_video">
+					<h1>On video</h1>
+				</div>
 			</div>
-		</div>
+		{% else %}
+			<div class="video">
+				<video id="video_film" class="video_film" controls preload="auto" data-setup="{}">
+				</video>
+				<div class="sezons" id="sezons">
+					{% for s in film.sezons.all %}
+						<div class="sez">
+							<button value='{{ s.id }}' onclick="show_serias(this)" class="btn_sez">{{ s }}</button>
+						</div>
+					{% endfor %}
+				</div>
+				{% for s in film.sezons.all %}
+					<div class="serias", id='{{ s.id }}'>
+						{% for ser in s.serias.all %}
+							<div class="ser">
+
+
+								<button value='{{ ser.file.url }}' onclick="video_seria(this)" class="btn_sez">{{ ser }}</button>
+
+
+								
+							</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+				<div class="on_video">
+					<h1>On video</h1>
+				</div>
+			</div>
+		{% endif %}
 		{% if reg %}
 		<link rel="stylesheet" type="text/css" href="{% static "films/web_rtc_style.css" %}">
 		<div class="webrtc">

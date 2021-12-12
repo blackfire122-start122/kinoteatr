@@ -34,10 +34,14 @@ def find_films(str_url_type,str_url_genre,str_year):
     if str_year.isdigit() == False:
         del q_filters['years']
 
-
     try:
-        films = Films.objects.filter(*(i for i in q_filters.values()))
-        return films
+        if str_url_type == "Serial":
+            del q_filters['type']
+            serials = Serials.objects.filter(*(i for i in q_filters.values()))
+            return serials
+        else:
+            films = Films.objects.filter(*(i for i in q_filters.values()))
+            return films
     except:
         return {}
 
@@ -59,7 +63,6 @@ def index(request):
         films = Films.objects.order_by('-year')
     except:
         pass
-
     if request.method == "POST" and request.POST["name_film"]!='all':
         films = films.filter(name=request.POST["name_film"])[:50]
         name_film = request.POST["name_film"]
@@ -90,12 +93,16 @@ def about(request):
         }
 )
 
-def film(request,fn):
+def film(request,typef,fn):
+    if typef == "Serial":
+        film = Serials.objects.get(id=fn)
+    else:
+        film = Films.objects.get(id=fn)
     user = {}
     user = user_ret(request)
     return render(request,
         "films/film.html",
-        {"film":Films.objects.get(id=fn),
+        {"film":film,
         "genre":Genre.objects.all(),
         "type":Type.objects.all(),
         "years": years,
@@ -143,8 +150,8 @@ def tg(request,str_url_type,str_url_genre,str_year):
         }
 )
 
-def get_streaming_video(request, pk: int):
-    file, status_code, content_length, content_range = open_file(request, pk)
+def get_streaming_video(request,typef,pk):
+    file, status_code, content_length, content_range = open_file(request,typef, pk)
     response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
 
     response['Accept-Ranges'] = 'bytes'

@@ -18,7 +18,12 @@
 			{% for f in films %}
 				<div class="film">
 					<div class="on_img_{{ f.id }} on_img">
-						<a href="{% url 'film' f.id %}">
+						{% if f.typef %}
+							<a href="{% url 'film' f.typef f.id %}">
+						{% else %}
+							<a href="{% url 'film' "Serial" f.id %}">
+						{% endif %}
+						
 						<h2>{{ f.name }}</h2><br>
 						</a>
 						<div class="c_l">

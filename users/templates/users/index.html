@@ -53,7 +53,11 @@
 							<div class="film_like">
 								<img class="like_film_img" src="{{ f.img_film.url }}" alt="film">
 								<div>
-									<a href="{% url 'film' f.id %}">
+									{% if f.typef %}
+										<a href="{% url 'film' f.typef f.id %}">
+									{% else %}
+										<a href="{% url 'film' "Serial" f.id %}">
+									{% endif %}
 									<p class="name_film">{{ f.name }}</p>
 									{% for g in f.genres.all %}
 									</a>
@@ -94,7 +98,7 @@
 							<div class="film_like">
 								<img class="friends_img" src="{{ f.img.url }}" alt="friend">
 								<div>
-									<p>{{ f.name }}</p>
+									<p>{{ f.username }}</p>
 								</div>
 								
 							</div>
