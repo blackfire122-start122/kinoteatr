@@ -26,7 +26,6 @@ def ranged(file: IO[bytes],start: int = 0,end: int = None,block_size: int = 8192
 def open_file(request,typef, video_pk) -> tuple:
     if typef=="Serial":
         _video = get_object_or_404(Serias, pk=video_pk)
-        print("good")
     else:
         _video = get_object_or_404(Films, pk=video_pk)
 
