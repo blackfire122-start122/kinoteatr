@@ -70,6 +70,9 @@
 	.video{
 		left: 0;
 	}
+	.sezons, .serias{
+		width: 100%;
+	}
 }
 
 @media all and (display-mode: fullscreen) {
@@ -120,18 +123,21 @@
 		top: 0%;
 		left: 12%;
 	}
+	.sezons, .serias{
+		position: relative;
+		left:9em;	}
 }
 @media all and (display-mode: fullscreen) and (max-width: 360px) {
 	#div_message{
 		position: fixed;
 		right: 0%;
-		top: 25%;
-		height: 75%;
+		top: 27%;
+		height: 73%;
 		width: 65%;
 	}
 	.raw{
-		top: 25%;
-		height: 75%;
+		top: 27%;
+		height: 73%;
 	}
 	.webrtc{
 		width: 100%;
@@ -151,5 +157,8 @@
 	}
 	.btn_send{
 		width: 81%;
+	}
+	.sezons, .serias{
+		left:0%;
 	}
 }
