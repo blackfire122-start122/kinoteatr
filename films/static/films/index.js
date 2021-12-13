@@ -9,6 +9,7 @@ let video_film = document.querySelector('#video_film')
 let img_camera = document.querySelector('#img_camera')
 let raw = document.querySelector('#raw')
 let friend = document.querySelector('#friends_block')
+let fullscreen_btn = document.querySelector('#fullscreen_btn')
 
 let conn;
 let peerConnection;
@@ -34,12 +35,13 @@ const constraints = {
 };
 
 function connect() {
-    conn = new WebSocket('ws://127.0.0.1:8000/chat/' + friend_name)
-    conn.addEventListener('open', (e) => {
-        console.log("Connected to the signaling server "+friend_name);
-        initialize(My_name);
-    })
-    conn.addEventListener('message', onmessage)
+    fullscreen_btn.style.display = 'block'
+    // conn = new WebSocket('ws://127.0.0.1:8000/chat/' + friend_name)
+    // conn.addEventListener('open', (e) => {
+    //     console.log("Connected to the signaling server "+friend_name);
+    //     initialize(My_name);
+    // })
+    // conn.addEventListener('message', onmessage)
     // send({
     //     peer: username,
     //     message: "My id",
@@ -47,6 +49,7 @@ function connect() {
     connectButton.style.display = 'none'
     send_mes_btn.style.display = 'inline-block'
     friend.style.display = 'none'
+
 }
 
 function onmessage(msg) {
@@ -294,15 +297,3 @@ video_film.addEventListener('seeked',function(){
 video_film.addEventListener('webkitfullscreenchange', function(){
     console.log(video_film.style)
 })
-
-function show_serias(btn){
-    sezon_ser = document.getElementById(btn.value)
-    sez=document.getElementById("sezons")
-    sez.style.display='none'
-    sezon_ser.style.display="flex"
-    
-}
-function video_seria(btn){
-    console.log(btn.value)
-    video_film.src = btn.value
-}
