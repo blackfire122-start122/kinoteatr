@@ -53,11 +53,18 @@ def user_ret(request):
         return {}
 
 def like_ajax(request):
-    try:
-        User.objects.get(pk=request.session["id"]).like_films.add(Films.objects.get(pk=int(request.GET['id'])))
-        return JsonResponse({"data_text":"OK"}, status=200)
-    except:
-        return JsonResponse({"data_text":"error"}, status=500)
+    if request.GET['typefors'] == "Serial":
+        try:
+            User.objects.get(pk=request.session["id"]).like_serials.add(Serials.objects.get(pk=int(request.GET['id'])))
+            return JsonResponse({"data_text":"OK"}, status=200)
+        except:
+            return JsonResponse({"data_text":"error"}, status=500)
+    else:
+        try:
+            User.objects.get(pk=request.session["id"]).like_films.add(Films.objects.get(pk=int(request.GET['id'])))
+            return JsonResponse({"data_text":"OK"}, status=200)
+        except:
+            return JsonResponse({"data_text":"error"}, status=500)
 
 def comment_ajax(request):
     user = user_ret(request)

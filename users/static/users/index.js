@@ -33,10 +33,11 @@ function btn_friend_no_add(btn){
 	btn.display='none';
 }
 function dont_like(btn){
+	data = btn.value.split(":")
 	$.ajax({
 		type: $(this).attr('post'),
 		url: dont_like_url,
-		data: {'id':btn.value},
+		data: {'id':data[0],"typefors":data[1]},
 	})
 }
 function exit(btn){

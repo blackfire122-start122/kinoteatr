@@ -23,20 +23,25 @@ def friend_no_index(request):
         try:
             user_account.friends.remove(User.objects.get(pk=int(request.GET['id'])))
         except:
-            return JsonResponse({"data_text":"Error"}, status=400)
+            return JsonResponse({"data_text":"Error"}, status=500)
         return JsonResponse({"data_text":"OK"}, status=200)
-    return JsonResponse({"data_text":"Error"}, status=400)
+    return JsonResponse({"data_text":"Error"}, status=500)
 
 
 def dont_like(request):
     user_account = user_ret(request)
-    if request.is_ajax():
+    if request.GET['typefors'] == "Serial":
+        try:
+            user_account.like_serials.remove(Serials.objects.get(pk=int(request.GET['id']))) 
+            return JsonResponse({"data_text":"OK"}, status=200)
+        except:
+            return JsonResponse({"data_text":"Error"}, status=500)
+    else:
         try:
             user_account.like_films.remove(Films.objects.get(pk=int(request.GET['id']))) 
+            return JsonResponse({"data_text":"OK"}, status=200)
         except:
-            return JsonResponse({"data_text":"Error"}, status=400)
-        return JsonResponse({"data_text":"OK"}, status=200)
-    return JsonResponse({"data_text":"Error"}, status=400)
+            return JsonResponse({"data_text":"Error"}, status=500)
 
 def friend_no_add_index(request):
     user_account = user_ret(request)
@@ -45,8 +50,8 @@ def friend_no_add_index(request):
             user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
             return JsonResponse({"data_text":"OK"}, status=200)
         except:
-            return JsonResponse({"data_text":"Error"}, status=400)
-    return JsonResponse({"data_text":"Error"}, status=400)
+            return JsonResponse({"data_text":"Error"}, status=500)
+    return JsonResponse({"data_text":"Error"}, status=500)
 
 def friend_add_index(request):
     user_account = user_ret(request)
@@ -57,8 +62,8 @@ def friend_add_index(request):
             user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
             return JsonResponse({"data_text":"OK"}, status=200)
         except:
-            return JsonResponse({"data_text":"Error"}, status=400)
-    return JsonResponse({"data_text":"Error"}, status=400)
+            return JsonResponse({"data_text":"Error"}, status=500)
+    return JsonResponse({"data_text":"Error"}, status=500)
 
 def friend_add(request):
     user_account = user_ret(request)
@@ -67,9 +72,9 @@ def friend_add(request):
             User.objects.get(pk=int(request.GET['id'])).friends_want_add.add(user_account)
             return JsonResponse({"data_text":"Submit"}, status=200)
         except:
-            return JsonResponse({"data_text":"Error"}, status=400)
+            return JsonResponse({"data_text":"Error"}, status=500)
     else:
-        return JsonResponse({"data_text":"No ajax"}, status=400)
+        return JsonResponse({"data_text":"No ajax"}, status=500)
 
 def all_users(request):
     user_account = user_ret(request)

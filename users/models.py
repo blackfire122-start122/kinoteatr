@@ -1,5 +1,5 @@
 from django.db import models
-from films.models import Films
+from films.models import Films,Serials
 from django.contrib.auth.models import AbstractUser
 
 class Country(models.Model):
@@ -13,12 +13,13 @@ class Country(models.Model):
 		verbose_name_plural = "Country"
 
 class User(AbstractUser):
-	age = models.PositiveSmallIntegerField(default=0,null=True,blank=False)
+	age = models.PositiveSmallIntegerField(default=0,null=True,blank=True)
 	img = models.ImageField(upload_to="user_img/",default="user_img/default.png",blank=False)
 	country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=False)
-	like_films = models.ManyToManyField(Films, blank=False)
-	friends = models.ManyToManyField("self", blank=False)
-	friends_want_add = models.ManyToManyField("self", blank=False,symmetrical=False)
+	like_films = models.ManyToManyField(Films, blank=True,null=True)
+	like_serials = models.ManyToManyField(Serials, blank=True,null=True)
+	friends = models.ManyToManyField("self", blank=True)
+	friends_want_add = models.ManyToManyField("self", null=True,blank=True,symmetrical=False)
     
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = []

@@ -6,7 +6,6 @@
 		<content class="content_user">
             <div class="img_exit">
                 <img src="{{ user.img.url }}" alt="ava" class="img_ava">
-
                 <button onclick="exit(this)" class="btn_exit">Exit</button>
             </div>
 			<form class="user_account" method="post" enctype="multipart/form-data">
@@ -65,7 +64,28 @@
 									{% endfor %}
 								</div>
 							</div>
-							<button value="{{ f.id }}" onclick="dont_like(this)" class="dont_like">Dont like</button>
+							<button value="{{ f.id }}:{{ f.typef }}" onclick="dont_like(this)" class="dont_like">Dont like</button>
+						</div>
+						<br>
+					{% endfor %}
+					{% for f in user.like_serials.all %}
+						<div class="film_like_bnt">
+							<div class="film_like">
+								<img class="like_film_img" src="{{ f.img_film.url }}" alt="film">
+								<div>
+									{% if f.typef %}
+										<a href="{% url 'film' f.typef f.id %}">
+									{% else %}
+										<a href="{% url 'film' "Serial" f.id %}">
+									{% endif %}
+									<p class="name_film">{{ f.name }}</p>
+									{% for g in f.genres.all %}
+									</a>
+										<label class="g_f_l">{{ g }}</label>
+									{% endfor %}
+								</div>
+							</div>
+							<button value="{{ f.id }}:{{ f.typef }}" onclick="dont_like(this)" class="dont_like">Dont like</button>
 						</div>
 						<br>
 					{% endfor %}

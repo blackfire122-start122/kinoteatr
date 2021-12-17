@@ -31,7 +31,7 @@
 								<p>{{ c }}</p>
 							{% endfor %}
 							{% if reg %}
-								<button onclick="like(this)" value="{{ f.id }}" class="like_btn">Like</button>
+								<button onclick="like(this)" value="{{ f.id }}:{{ f.typef }}" class="like_btn">Like</button>
 							{% endif %}
 						</div>
 						<p class="year">{{ f.year }}</p>
