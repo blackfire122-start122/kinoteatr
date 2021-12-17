@@ -61,6 +61,10 @@ def like_ajax(request):
 
 def comment_ajax(request):
     user = user_ret(request)
+    if request.GET['typefors'] == "Serial":
+        where_add = Serials
+    else:
+        where_add = Films
     if 'id_com' in request.GET:
         try:
             parent_com = Comments.objects.get(pk=request.GET['id_com'])  
@@ -71,7 +75,7 @@ def comment_ajax(request):
         comm = Comments(user=user,comment=request.GET['comment'])
     try:
         comm.save()
-        Films.objects.get(pk=request.GET['id']).comments.add(comm)
+        where_add.objects.get(pk=request.GET['id']).comments.add(comm)
         return JsonResponse({"data_text":"OK"}, status=200)
     except:
         return JsonResponse({"data_text":"error"}, status=500)

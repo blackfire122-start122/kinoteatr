@@ -110,6 +110,9 @@
 	height: 10%;
 }
 @media (max-width: 768px){
+	.film_info{
+		flex-direction: column;
+	}
 	.footer_film_all{
 		height: 250px;
 	}

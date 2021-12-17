@@ -300,7 +300,8 @@ function btn_reply_ajax(btn){
     $.ajax({
         url: comment_ajax,
         type: $(this).attr('post'),
-        data: {"comment":com_user.value,
+        data: {"typefors":type_fs,
+            "comment":com_user.value,
                 "id":film_id,
                 "id_com":btn.value},
         failure: function(data) { 
@@ -314,7 +315,8 @@ function comment(){
     $.ajax({
         url: comment_ajax,
         type: $(this).attr('post'),
-        data: {"comment":com_user.value,
+        data: {"typefors":type_fs,
+            "comment":com_user.value,
                 "id":film_id},
         failure: function(data) { 
             alert(data)

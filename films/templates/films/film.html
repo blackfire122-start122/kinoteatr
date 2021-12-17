@@ -68,11 +68,6 @@
 						{% endfor %}
 					</div>
 				{% endfor %}
-				<div class="on_video">
-					<div>
-						
-					</div>
-				</div>
 			</div>
 		{% endif %}
 		<script src="{% static "films/films.js" %}"></script>
@@ -149,6 +144,7 @@
 			let camera_none_img = "{% static 'films/images/camera_none.png' %}"
 			let comment_ajax = "{% url 'comment_ajax' %}"
 			let film_id = "{{ film.id }}"
+			let type_fs = "{{ film.typef }}"
 		</script>
 
 		<script src="{% static "films/index.js" %}"></script>

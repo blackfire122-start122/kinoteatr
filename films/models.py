@@ -108,7 +108,9 @@ class Serials(models.Model):
     country = models.ManyToManyField(Country_film)
     actors = models.ManyToManyField(Actor)
     genres = models.ManyToManyField(Genre)
+    typef = models.ForeignKey(Type,on_delete=models.CASCADE, blank=True)
     description = models.TextField()
+    comments = models.ManyToManyField(Comments, null=True, blank=True)
     sezons = models.ManyToManyField(Sezons,blank=False)
 
     def __str__(self):
