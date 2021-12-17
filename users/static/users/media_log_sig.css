@@ -1,15 +1,27 @@
-@media (max-width: 360px){
+@media (max-width: 768px){
 	.img_user{
 		display: none;
 	}
 	.req button{
 		position: relative;
+		font-size: 1.4em;
+	}
+	.form_user{
+		width: 30em;
+		left: 15%;
+	}
+}
+
+@media (max-width: 320px){
+	.req button{
 		left: 10px;
 		font-size: 1.1em;
 		width: 4em;
+		text-align: left;
+		padding: 3px;
 	}
 	.form_user{
-		width: 20em;
+		width: 19em;
 		left: 0%;
 	}
 }

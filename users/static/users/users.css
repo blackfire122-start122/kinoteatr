@@ -1,7 +1,7 @@
 .content_user{
 	width: 100%;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	background-color:rgba(0, 0, 0, 0.2);
 }
 .user_account{
@@ -214,8 +214,10 @@ html {
 .img_name_friend{
 	display: flex;
 }
-
-@media (max-width: 360px){
+.data_2{
+	width: 7em;
+}
+@media (max-width: 768px){
 	.friends_and_want{
 		width: 100%;
 		display: flex;
@@ -232,7 +234,7 @@ html {
 		font-size: 0.8em;
 	}
 	.like_films_block{
-		margin-top: 30%;
+		margin-top: 15%;
 		width: 100%;
 	}
 	.like_films{
@@ -243,9 +245,21 @@ html {
 	}
 	.data_2{
 		display: flex;
-		margin-top: 2%;
+		margin-top: 10%;
 	}
 	.friend{
 		overflow-x: hidden;
+	}
+	.btn_add{
+		font-size: 0.8em;
+	}
+	.img_exit{
+		width: 100%;
+	}
+}
+@media (max-width: 320){
+	.like_films_block{
+		margin-top: 30%;
+		width: 100%;
 	}
 }

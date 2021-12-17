@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-	<main class="main main_film">
+	<main class="main_film">
 		<content class="content_film">
 			<div class="film_info">
 				<img src="{{ film.img_film.url }}" alt="" class="img_film_f">
@@ -114,19 +114,45 @@
 				    <button id="sendmesbtn" type="submit" class="btn_send btn-primary" onclick='sendMessage()'>SEND</button>
 			    </div>
 			</div>
-			<link rel="stylesheet" type="text/css" href="{% static "films/films.css" %}">
-			<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
+		</div>
 
-			<script>
-				let My_name = '{{ reg.username }}'
-				let My_id = '{{ reg.id }}'
-				let camera_img = "{% static 'films/images/camera.png' %}"
-				let camera_none_img = "{% static 'films/images/camera_none.png' %}"
-			</script>
-			<script src="{% static "films/index.js" %}"></script>
+		<div class="comments">
+			<div  class="h_com">
+				<h1>Comments</h1>
+				<button onclick="comment()">Comment</button>
+			</div>
+			<input id="comment_user">
+			{% for i in film.comments.all %}
+				<div class="comment">
+					{% if i.parent %}
+						<p>To comment: {{ i.parent }}</p>
+					{% endif %}
+					<div>
+						<img class='img_com' src="{{ i.user.img.url }}" alt="ava">
+						<p class="com_text">{{ i }}</p>
+					</div>
+					<div class="name_reply">
+						<h3>{{ i.user.username }}</h3>
+						<button onclick="btn_reply_ajax(this)" id="btn_reply" value="{{ i.id }}">reply</button>
+					</div>
+				</div>
+			{% endfor %}
 		</div>
-		</div>
+
+		<link rel="stylesheet" type="text/css" href="{% static "films/films.css" %}">
+		<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
+
+		<script>
+			let My_name = "{{ reg.username }}"
+			let My_id = "{{ reg.id }}"
+			let camera_img = "{% static 'films/images/camera.png' %}"
+			let camera_none_img = "{% static 'films/images/camera_none.png' %}"
+			let comment_ajax = "{% url 'comment_ajax' %}"
+			let film_id = "{{ film.id }}"
+		</script>
+
+		<script src="{% static "films/index.js" %}"></script>
+
 		{% endif %}
-		
 	</main>
 {% endblock %}

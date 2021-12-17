@@ -9,7 +9,7 @@ let video_film = document.querySelector('#video_film')
 let img_camera = document.querySelector('#img_camera')
 let raw = document.querySelector('#raw')
 let friend = document.querySelector('#friends_block')
-let fullscreen_btn = document.querySelector('#fullscreen_btn')
+let com_user = document.querySelector('#comment_user')
 
 let conn;
 let peerConnection;
@@ -28,20 +28,18 @@ let config = {
     ]
 };
 
-
 const constraints = {
     video: true,
     audio: false
 };
 
 function connect() {
-    fullscreen_btn.style.display = 'block'
-    // conn = new WebSocket('ws://127.0.0.1:8000/chat/' + friend_name)
-    // conn.addEventListener('open', (e) => {
-    //     console.log("Connected to the signaling server "+friend_name);
-    //     initialize(My_name);
-    // })
-    // conn.addEventListener('message', onmessage)
+    conn = new WebSocket('ws://127.0.0.1:8000/chat/' + friend_name)
+    conn.addEventListener('open', (e) => {
+        console.log("Connected to the signaling server "+friend_name);
+        initialize(My_name);
+    })
+    conn.addEventListener('message', onmessage)
     // send({
     //     peer: username,
     //     message: "My id",
@@ -297,3 +295,30 @@ video_film.addEventListener('seeked',function(){
 video_film.addEventListener('webkitfullscreenchange', function(){
     console.log(video_film.style)
 })
+
+function btn_reply_ajax(btn){
+    $.ajax({
+        url: comment_ajax,
+        type: $(this).attr('post'),
+        data: {"comment":com_user.value,
+                "id":film_id,
+                "id_com":btn.value},
+        failure: function(data) { 
+            alert(data)
+        }
+    })
+    com_user.value = ""
+}
+
+function comment(){
+    $.ajax({
+        url: comment_ajax,
+        type: $(this).attr('post'),
+        data: {"comment":com_user.value,
+                "id":film_id},
+        failure: function(data) { 
+            alert(data)
+        }
+    })
+    com_user.value = ""
+}

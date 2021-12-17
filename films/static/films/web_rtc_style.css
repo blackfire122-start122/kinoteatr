@@ -17,6 +17,7 @@
 .webrtc{
 	display: flex;
 	background-color: rgba(0, 0, 0, 0.2);
+	justify-content: center;
 }
 .raw{
 	display: grid;
@@ -65,9 +66,12 @@
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.2);
 }
-@media (max-width: 360px){
+@media (max-width: 768px){
 	.webrtc{
 		flex-direction: column;
+	}
+	.message{
+		width: 100%;
 	}
 	.btn_friend{
 		font-size: 1.2em;
@@ -79,6 +83,7 @@
 		height: 100%;
 		flex-direction: row;
 		overflow-y: hidden;
+		overflow-x: scroll;
 	}
 	.raw{
 		grid-template-columns: repeat(2, 1fr);

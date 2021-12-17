@@ -1,12 +1,12 @@
 .video_film{
-	width: 900px;
+	width: 80%;
 	z-index: 0;
 }
 .video{
 	position:relative;
-	left: 12%;
 	display: flex;
 	flex-direction: column;
+	left: 10%;
 }
 .img_film_f{
 	width: 300px;
@@ -48,21 +48,78 @@
 	display: flex;
 	justify-content: space-between;
 }
-#fullscreen_btn{
-	display: none;
+.friends_block{
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+}
+.friend{
+	overflow-y: scroll;
+	overflow-x: hidden;
+	background-color:rgba(0, 0, 0, 0.2);
+}
+.footer_film_all{
+	width: 100%;
+	height: 450px;
+	overflow-y: auto;
+	font-size: 1.3em;
+	font-weight: bold;
+	background-color: rgba(0, 0, 0, 0.3);
+	text-align: center;
 }
 
-@media (max-width: 360px){
-	.img_film_f{
-		width: 100%;
+.comments{
+	position: relative;
+	left: 10%;
+	width: 80%;
+	align-items: center;
+	margin-top: 1%;
+	display: flex;
+	flex-direction: column;
+	background-color:rgba(0, 0, 0, 0.2);
+}
+.comment{
+	color: white;
+	min-height: 50px
+	background-color:rgba(0, 0, 0, 0.2);
+	border: 2px solid black;
+	border-radius: 5px;
+	width: 100%;
+}
+.comment div{
+	display: flex;
+	width: 100%;
+}
+.h_com{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+#comment_user{
+	width: 100%;
+}
+.name_reply{
+	display: flex;
+	justify-content: space-between;
+}
+.com_text{
+	margin-left: 2%;
+}
+.img_com{
+	width: 10%;
+	height: 10%;
+}
+@media (max-width: 768px){
+	.footer_film_all{
+		height: 250px;
 	}
-	.film_info{
-		flex-direction: column;
-	}.actors_film{
-		flex-direction: column;
-		overflow-y: auto;
+	.friend{
+		overflow-y: hidden;
+		overflow-x: scroll;
+		background-color:rgba(0, 0, 0, 0.2);
+	}
+	.friends_block{
 		width: 100%;
-		height: 300px;
 	}
 	.video_film{
 		width: 100%;
@@ -70,17 +127,29 @@
 	.video{
 		left: 0;
 	}
+	.img_film_f{
+		width: 100%;
+	}
+	.actors_film{
+		flex-direction: column;
+		overflow-y: auto;
+		overflow-x: hidden;
+		width: 100%;
+		height: 300px;
+	}
 	.sezons, .serias{
 		width: 100%;
 	}
 }
 
 @media all and (display-mode: fullscreen) {
-	.video{
-	 	left: 0;
-	}
 	.video_film{
 		width: 100%;
+		height: 100%;
+	}
+	.video{
+		left: 0;
+		height: 100%;
 	}
 	.btn_friend{
 		font-size: 1.2em;
@@ -112,8 +181,9 @@
 		grid-template-columns: repeat(1, 1fr);
 		position: fixed;
 		top: 0;
-		height: 100%;
-		overflow-y: auto;
+		left: 0;
+		height: 90%;
+		overflow-y: scroll;
     	overflow-x: hidden;
 	}
 	.form-control{
@@ -121,23 +191,28 @@
 	}.form_input{
 		position: fixed;
 		top: 0%;
-		left: 12%;
+		left: 16%;
 	}
 	.sezons, .serias{
 		position: relative;
 		left:9em;	}
 }
-@media all and (display-mode: fullscreen) and (max-width: 360px) {
+@media all and (display-mode: fullscreen) and (max-width: 768px) {
+	.video_film{
+		width: 100%;
+		height: auto;
+	}
 	#div_message{
 		position: fixed;
 		right: 0%;
-		top: 27%;
-		height: 73%;
+		top: 54%;
+		height: 46%;
 		width: 65%;
 	}
 	.raw{
-		top: 27%;
-		height: 73%;
+		grid-template-columns: repeat(2, 1fr);
+		top: 54%;
+		height: 45%;
 	}
 	.webrtc{
 		width: 100%;
@@ -160,5 +235,56 @@
 	}
 	.sezons, .serias{
 		left:0%;
+	}
+}
+@media all and (display-mode: fullscreen) and (max-width: 320px) {
+	#div_message{
+		top: 27%;
+		height: 73%;
+		width: 59%;
+	}
+	.raw{
+		grid-template-columns: repeat(1, 1fr);
+		top: 27%;
+		height: 73%;
+	}
+}
+
+@media screen and (orientation: landscape) and (max-width: 768px){
+	#div_message{
+		right: 0%;
+		top: 0;
+		height: 87%;
+		width: 40%;
+	}
+	.video_film {
+		height: 100%;
+	}
+	.raw{
+		grid-template-columns: repeat(1, 1fr);
+		top: 0;
+		height: 82%;
+	}
+	.form_input{
+		top: 75%;
+		left: 94%;
+	}
+}
+
+@media screen and (orientation: landscape) and (max-width: 320px){
+	#div_message{
+		height: 52%;
+		width: 47%;
+	}
+	.video_film {
+		height: 100%;
+	}
+	.raw{
+		top: 0;
+		height: 82%;
+	}
+	.form_input{
+		top: 75%;
+		left: 94%;
 	}
 }

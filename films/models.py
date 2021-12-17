@@ -44,6 +44,18 @@ class Type(models.Model):
     class Meta:
         verbose_name = "Type"
         verbose_name_plural = "Types"
+        
+class Comments(models.Model):
+    user = models.ForeignKey('users.User',on_delete=models.CASCADE)
+    comment = models.TextField(null=True,blank=True)
+    parent = models.ForeignKey("self",on_delete=models.CASCADE,null=True,blank=True)
+
+    def __str__(self):
+        return self.comment
+
+    class Meta:
+        verbose_name = "comment"
+        verbose_name_plural = "comments"
 
 class Films(models.Model):
     name = models.CharField(max_length=30)
@@ -54,6 +66,7 @@ class Films(models.Model):
     genres = models.ManyToManyField(Genre,blank=True)
     typef = models.ForeignKey(Type,on_delete=models.CASCADE, null=True, blank=False)
     description = models.TextField(blank=True)
+    comments = models.ManyToManyField(Comments, null=True, blank=True)
     file = models.FileField(upload_to='video/',default='')
 
     def __str__(self):

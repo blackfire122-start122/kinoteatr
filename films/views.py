@@ -53,9 +53,28 @@ def user_ret(request):
         return {}
 
 def like_ajax(request):
-    User.objects.get(pk=request.session["id"]).like_films.add(Films.objects.get(pk=int(request.GET['id'])))
-    return JsonResponse({"data_text":"all good"}, status=200)
-    return JsonResponse({"data_text":"error sory"}, status=400)
+    try:
+        User.objects.get(pk=request.session["id"]).like_films.add(Films.objects.get(pk=int(request.GET['id'])))
+        return JsonResponse({"data_text":"OK"}, status=200)
+    except:
+        return JsonResponse({"data_text":"error"}, status=500)
+
+def comment_ajax(request):
+    user = user_ret(request)
+    if 'id_com' in request.GET:
+        try:
+            parent_com = Comments.objects.get(pk=request.GET['id_com'])  
+            comm = Comments(user=user,parent=parent_com, comment=request.GET['comment'])
+        except:
+            return JsonResponse({"data_text":"error"}, status=500)
+    else:
+        comm = Comments(user=user,comment=request.GET['comment'])
+    try:
+        comm.save()
+        Films.objects.get(pk=request.GET['id']).comments.add(comm)
+        return JsonResponse({"data_text":"OK"}, status=200)
+    except:
+        return JsonResponse({"data_text":"error"}, status=500)
 
 def index(request):
     user = user_ret(request)
