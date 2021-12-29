@@ -87,6 +87,13 @@ def comment_ajax(request):
     except:
         return JsonResponse({"data_text":"error"}, status=500)
 
+def comment_delete_ajax(request):
+    try:
+        Comments.objects.get(pk=request.GET["id"]).delete()
+        return JsonResponse({"data_text":"OK"}, status=200)
+    except:
+        return JsonResponse({"data_text":"error"}, status=500)
+
 def index(request):
     user = user_ret(request)
     try:

@@ -86,11 +86,11 @@
 	border-radius: 5px;
 	width: 100%;
 }
-.comment div{
+.img_commment{
 	display: flex;
 	width: 100%;
 }
-.h_com{
+.inp_com{
 	width: 100%;
 	display: flex;
 	justify-content: space-around;

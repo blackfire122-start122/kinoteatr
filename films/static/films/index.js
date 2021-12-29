@@ -296,31 +296,44 @@ video_film.addEventListener('webkitfullscreenchange', function(){
     console.log(video_film.style)
 })
 
+let id_com;
+let style_div
 function btn_reply_ajax(btn){
+    btn.parentNode.parentNode.parentNode.style.background = 'rgba(0, 0, 0, 0.5)'
+    style_div = btn.parentNode.parentNode.parentNode
+    id_com = btn.value
+}
+
+function comment(){
+    if (!com_user.value){
+        return
+    }
     $.ajax({
         url: comment_ajax,
         type: $(this).attr('post'),
         data: {"typefors":type_fs,
             "comment":com_user.value,
                 "id":film_id,
-                "id_com":btn.value},
+                "id_com":id_com},
         failure: function(data) { 
             alert(data)
         }
     })
+    id_com = null
+    if (style_div){
+        style_div.style.background = 'rgba(0, 0, 0, 0.0)'
+        style_div = null
+    }
     com_user.value = ""
 }
 
-function comment(){
+function comment_delete(btn){
     $.ajax({
-        url: comment_ajax,
+        url: comment_delete_ajax,
         type: $(this).attr('post'),
-        data: {"typefors":type_fs,
-            "comment":com_user.value,
-                "id":film_id},
+        data: {"id":btn.value},
         failure: function(data) { 
             alert(data)
         }
     })
-    com_user.value = ""
 }

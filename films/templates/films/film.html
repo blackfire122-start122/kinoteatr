@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+	<link rel="stylesheet" type="text/css" href="{% static "films/films.css" %}">
 	<main class="main_film">
 		<content class="content_film">
 			<div class="film_info">
@@ -112,29 +113,34 @@
 		</div>
 
 		<div class="comments">
-			<div  class="h_com">
-				<h1>Comments</h1>
+			<h1>Comments</h1>
+			<div class="inp_com">
+				<input id="comment_user">
 				<button onclick="comment()">Comment</button>
 			</div>
-			<input id="comment_user">
+			
 			{% for i in film.comments.all %}
 				<div class="comment">
 					{% if i.parent %}
-						<p>To comment: {{ i.parent }}</p>
+						<p>To comment: {{ i.parent|truncatechars:50 }}</p>
 					{% endif %}
-					<div>
+					<div class="img_commment">
 						<img class='img_com' src="{{ i.user.img.url }}" alt="ava">
 						<p class="com_text">{{ i }}</p>
 					</div>
 					<div class="name_reply">
 						<h3>{{ i.user.username }}</h3>
+						<div>
 						<button onclick="btn_reply_ajax(this)" id="btn_reply" value="{{ i.id }}">reply</button>
+						{% if i.user == reg %}
+							<button onclick="comment_delete(this)" value="{{ i.id }}">Delete</button>
+						{% endif %}
+						</div>
 					</div>
 				</div>
 			{% endfor %}
 		</div>
 
-		<link rel="stylesheet" type="text/css" href="{% static "films/films.css" %}">
 		<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
 
 		<script>
@@ -143,6 +149,7 @@
 			let camera_img = "{% static 'films/images/camera.png' %}"
 			let camera_none_img = "{% static 'films/images/camera_none.png' %}"
 			let comment_ajax = "{% url 'comment_ajax' %}"
+			let comment_delete_ajax = "{% url 'comment_delete_ajax' %}"
 			let film_id = "{{ film.id }}"
 			let type_fs = "{{ film.typef }}"
 		</script>
