@@ -9,7 +9,10 @@
 				{{ form.username }}<br>
 				{{ form.password }}<br>
 				<span>{{ error }}</span>
+
 				<button type='Enter' class='btn_form btn-primary'>Submit</button>
+				<a class="forgot_pass" href="{% url 'password_reset' %}">Forgot password</a>
+
 			</form> 
 		</main>
 		<link rel="stylesheet" href="{% static "users/media_log_sig.css" %}">

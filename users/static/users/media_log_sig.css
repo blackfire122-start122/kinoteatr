@@ -6,10 +6,6 @@
 		position: relative;
 		font-size: 1.4em;
 	}
-	.form_user{
-		width: 30em;
-		left: 15%;
-	}
 }
 
 @media (max-width: 320px){
@@ -19,9 +15,5 @@
 		width: 4em;
 		text-align: left;
 		padding: 3px;
-	}
-	.form_user{
-		width: 19em;
-		left: 0%;
 	}
 }

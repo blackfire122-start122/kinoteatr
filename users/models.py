@@ -16,10 +16,10 @@ class User(AbstractUser):
 	age = models.PositiveSmallIntegerField(default=0,null=True,blank=True)
 	img = models.ImageField(upload_to="user_img/",default="user_img/default.png",blank=False)
 	country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=False)
-	like_films = models.ManyToManyField(Films, blank=True,null=True)
-	like_serials = models.ManyToManyField(Serials, blank=True,null=True)
+	like_films = models.ManyToManyField(Films, blank=True)
+	like_serials = models.ManyToManyField(Serials, blank=True)
 	friends = models.ManyToManyField("self", blank=True)
-	friends_want_add = models.ManyToManyField("self", null=True,blank=True,symmetrical=False)
+	friends_want_add = models.ManyToManyField("self",blank=True,symmetrical=False)
     
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = []

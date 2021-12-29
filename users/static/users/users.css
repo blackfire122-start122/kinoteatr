@@ -158,6 +158,11 @@ html {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
+}
+.friends_block{
+	background-color: rgba(0, 0, 0, 0.3);	
+	border-radius: 7px;
 }
 .f_b{
 	display: flex;
@@ -218,6 +223,9 @@ html {
 	width: 7em;
 }
 @media (max-width: 768px){
+	.img_ava{
+		height: 100%;
+	}
 	.friends_and_want{
 		width: 100%;
 		display: flex;

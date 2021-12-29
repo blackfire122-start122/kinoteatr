@@ -48,7 +48,7 @@ class Type(models.Model):
 class Comments(models.Model):
     user = models.ForeignKey('users.User',on_delete=models.CASCADE)
     comment = models.TextField(null=True,blank=True)
-    parent = models.ForeignKey("self",on_delete=models.CASCADE,null=True,blank=True)
+    parent = models.ForeignKey("self",on_delete=models.CASCADE,blank=True)
 
     def __str__(self):
         return self.comment
@@ -64,9 +64,9 @@ class Films(models.Model):
     country = models.ManyToManyField(Country_film,blank=True)
     actors = models.ManyToManyField(Actor,blank=True)
     genres = models.ManyToManyField(Genre,blank=True)
-    typef = models.ForeignKey(Type,on_delete=models.CASCADE, null=True, blank=False)
+    typef = models.ForeignKey(Type,on_delete=models.CASCADE, blank=False)
     description = models.TextField(blank=True)
-    comments = models.ManyToManyField(Comments, null=True, blank=True)
+    comments = models.ManyToManyField(Comments, blank=True)
     file = models.FileField(upload_to='video/',default='')
 
     def __str__(self):
@@ -110,7 +110,7 @@ class Serials(models.Model):
     genres = models.ManyToManyField(Genre)
     typef = models.ForeignKey(Type,on_delete=models.CASCADE, blank=True)
     description = models.TextField()
-    comments = models.ManyToManyField(Comments, null=True, blank=True)
+    comments = models.ManyToManyField(Comments, blank=True)
     sezons = models.ManyToManyField(Sezons,blank=False)
 
     def __str__(self):

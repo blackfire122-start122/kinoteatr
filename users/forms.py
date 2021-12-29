@@ -1,5 +1,8 @@
 from .models import Country
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,UserChangeForm 
+from django.contrib.auth.forms import (UserCreationForm,
+								AuthenticationForm,
+								UserChangeForm,
+								PasswordResetForm)
 from django.forms import(ModelForm, 
 						TextInput,
 						PasswordInput, 
@@ -67,4 +70,3 @@ class Users_login_Form(AuthenticationForm):
 	class Meta:
 		model = User
 		fields = ['username','password']
-

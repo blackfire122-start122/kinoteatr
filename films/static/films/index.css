@@ -241,10 +241,10 @@ body{
 	display:flex;
 	flex-direction: column;
 	background-color:rgba(0, 0, 0, 0.2);
-	width: 50em;
-	position: relative;
-	left: 10%;
-	margin: 1em;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 1em auto;
 	align-items: center;
 }
 
@@ -264,7 +264,7 @@ body{
 	background-color: white;
 }
 .btn_form{
-	width: 40%;
+	width: 20em;
 	border-radius: 10px;
 	padding: 0.5em;
 	border: none;
@@ -328,6 +328,11 @@ body{
 }
 .friends_img{
 	width: 100px;
+}
+.forgot_pass{
+	font-size: 1.5em;
+	color: white;
+	text-decoration: underline;
 }
 @media (max-width: 768px){
 	.req button{
