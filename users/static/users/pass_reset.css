@@ -1,0 +1,41 @@
+main{
+    width:80%;
+    border-radius: 10px;
+    position: relative;
+    left: 10%;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+}
+.if_invalid{
+    font-size: 1.7em;
+}
+.text_about_send{
+    font-size: 1.3em;
+}
+#id_email, #id_new_password1, #id_new_password2{
+    font-size: 1.3em;
+    padding: 5px;
+    border-radius: 0.3em;
+    border: none;
+    margin: 0.2em;
+}
+.submit_btn{
+    border-radius: 10px;
+    padding: 0.5em;
+    border: none;
+    background-color: cyan;
+}
+.form_confirm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.link_login{
+    color: white;
+    text-decoration: underline;
+}
+.main_complete{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

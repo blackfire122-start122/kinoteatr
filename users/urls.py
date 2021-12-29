@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import path, include
 from . import views
-from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView, SetPasswordForm
 
 urlpatterns = [
     path('', views.all_users, name='all_users'),
