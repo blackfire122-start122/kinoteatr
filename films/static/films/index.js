@@ -12,7 +12,7 @@ let friend = document.querySelector('#friends_block')
 let com_user = document.querySelector('#comment_user')
 
 let conn;
-let peerConnection;
+let pc;
 let dataChannel;
 let friend_name = My_name
 let currentTime_film = false
@@ -34,16 +34,13 @@ const constraints = {
 };
 
 function connect() {
-    conn = new WebSocket('ws://127.0.0.1:8000/chat/' + friend_name)
+    // conn = new WebSocket('wss://'+location.hostname +'/'+ friend_name+film_id)
+    conn = new WebSocket('ws://127.0.0.1:8000/' + friend_name+film_id)
     conn.addEventListener('open', (e) => {
         console.log("Connected to the signaling server "+friend_name);
         initialize(My_name);
     })
     conn.addEventListener('message', onmessage)
-    // send({
-    //     peer: username,
-    //     message: "My id",
-    // });
     connectButton.style.display = 'none'
     send_mes_btn.style.display = 'inline-block'
     friend.style.display = 'none'
@@ -51,7 +48,7 @@ function connect() {
 }
 
 function onmessage(msg) {
-    let content = JSON.parse(msg.data);
+    let content = JSON.parse(msg.data)
     let data = content.data
     if (content.peer === My_name) {
         return;
@@ -74,10 +71,12 @@ function onmessage(msg) {
 function send(message) {
     conn.send(JSON.stringify(message))
 }
-
+function send_on_dc(message) {
+    dataChannel.send(JSON.stringify(message))
+}
 function initialize(username) {
-    peerConnection = new RTCPeerConnection(config)
-    peerConnection.onicecandidate = function (event) {
+    pc = new RTCPeerConnection(config)
+    pc.onicecandidate = function (event) {
         if (event.candidate) {
             send({
                 peer: username,
@@ -87,35 +86,36 @@ function initialize(username) {
         }
     };
 
-    dataChannel = peerConnection.createDataChannel("dataChannel", {
-        reliable: true
-    })
+    dataChannel = pc.createDataChannel("dataChannel")
 
     dataChannel.onerror = function (error) {
         console.log("Error occured on datachannel:", error)
     }
 
     dataChannel.onmessage = function (event) {
-        if (event.data=='pause'){
+        data = JSON.parse(event.data)
+        keys = Object.keys(data)
+
+        if (data[keys[0]]=='pause'){
             video_film.pause()
-        }else if (event.data=='play'){
+            return
+        }else if (data[keys[0]]=='play'){
             video_film.play()
-        }else{
-            data = event.data.split(":")
-            if (data[0]=='seeked') {
-                currentTime_film = true
-                video_film.currentTime = data[1]
-                setTimeout(function (){
-                    currentTime_film = false
-                },100)
-            }else if (data[0]=='first_connect'){
-                id_call = data[1]
-                console.log(My_id,id_call)
-            }else if(data[0]=='no_video'){
-                let video_call_stream = document.getElementById(data[1])
-                raw.removeChild(video_call_stream)
-                console.log("del")
-            }
+            return
+        }
+        else if (data[keys[0]]=='seeked') {
+            currentTime_film = true
+            video_film.currentTime = data[keys[1]]
+            setTimeout(function (){
+                currentTime_film = false
+            },100)
+            return
+        }else if (keys[0]=='connect_on_id'){
+            id_call = data[keys[0]]
+            return
+        }else if(keys[0]=='no_video'){
+            let video_call_stream = document.getElementById(data[keys[0]])
+            raw.removeChild(video_call_stream)
             return
         }
         chatLog.value += (event.data + '\n')
@@ -125,9 +125,9 @@ function initialize(username) {
         console.log("disconnected")
     }
 
-    peerConnection.ondatachannel = function (event) {
+    pc.ondatachannel = function (event) {
         dataChannel = event.channel
-        dataChannel.send('first_connect:' + My_id)
+        send_on_dc({"connect_on_id": My_id})
     }
     CreateOffer()
 }
@@ -135,16 +135,16 @@ function initialize(username) {
 function CreateOffer(){
     if (localStream) {
         localStream.getTracks().forEach(track => {
-            peerConnection.addTrack(track, localStream)
+            pc.addTrack(track, localStream)
         })
     }
-    peerConnection.createOffer(function (offer) {
+    pc.createOffer(function (offer) {
         send({
             peer: My_name,
             event: "offer",
             data: offer
         });
-        peerConnection.setLocalDescription(offer);
+        pc.setLocalDescription(offer);
     }, function (error) {
         alert("Error creating an offer");
     })
@@ -152,21 +152,19 @@ function CreateOffer(){
 
 function handleOffer(offer) {
     let remoteStream = new MediaStream();
-    add_videoelement(remoteStream,id_call)
-    window.stream = remoteStream
 
-    peerConnection.addEventListener('track', async (event) => {
-        remoteStream.addTrack(event.track, remoteStream)
+    pc.addEventListener('track', async (event) => {
+        remoteStream.addTrack(event.track)
     })
 
-    peerConnection.setRemoteDescription(offer)
+    pc.setRemoteDescription(offer)
         .then(() => {
-            console.log('Set Remote Description', friend_name);
-            return peerConnection.createAnswer()
+            console.log('Set Remote Description for offer');
+            return pc.createAnswer()
         })
         .then(answer => {
-            console.log('Answer create');
-            peerConnection.setLocalDescription(answer)
+            console.log('Answer create from offer');
+            pc.setLocalDescription(answer)
 
             send({
                 peer: friend_name,
@@ -174,35 +172,44 @@ function handleOffer(offer) {
                 data: answer
             })
         })
+    if_id = setInterval(function (){
+        if (id_call && dataChannel.readyState == 'open'){
+            add_videoelement(remoteStream,id_call)
+            id_call = null
+            clearInterval(if_id);
+        }
+    },10)
 }
 
 function handleCandidate(candidate) {
-    peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    pc.addIceCandidate(new RTCIceCandidate(candidate));
 }
 
 function handleAnswer(answer) {
     remoteStream = new MediaStream()
-    add_videoelement(remoteStream,id_call)
-    window.stream = remoteStream;
-
-    peerConnection.addEventListener('track', async (event) => {
-        remoteStream.addTrack(event.track, remoteStream)
+    pc.addEventListener('track', async (event) => {
+        remoteStream.addTrack(event.track)
     })
-
-    peerConnection.setRemoteDescription(new RTCSessionDescription(answer))
+    pc.setRemoteDescription(new RTCSessionDescription(answer))
         .then(() => {
-            console.log('Set Remote Description', friend_name)
-            return peerConnection.createAnswer()
+            console.log('Set Remote Description for', friend_name)
+            return pc.createAnswer()
         })
         .then(answer => {
-            console.log('Answer create')
-            peerConnection.setLocalDescription(answer)
+            console.log('Answer create from '+friend_name)
+            pc.setLocalDescription(answer)
         })
-    console.log("connection established successfully!!")
+    if_id = setInterval(function (){
+        if (id_call && dataChannel.readyState == 'open'){
+            add_videoelement(remoteStream,id_call)
+            id_call = null
+            clearInterval(if_id);
+        }
+    },10)
 }
 
 function sendMessage() {
-    dataChannel.send(My_name+': '+msg_user.value)
+    send_on_dc({"My_name":msg_user.value})
     chatLog.value += (My_name+': '+msg_user.value + '\n')
     msg_user.value = ''
 }
@@ -214,7 +221,7 @@ function my_stream() {
             add_videoelement(localStream,0)
             let audioTrack = stream.getAudioTracks()
             let videoTrack = stream.getVideoTracks()
-            // audioTrack[0].enabled = false
+            // audioTrack[0].enabled = true
             videoTrack[0].enabled = true
         }).catch(error => {
         console.log('Error media', error)
@@ -238,8 +245,11 @@ function turn_camera(btn){
           track.stop()
         })
         raw.removeChild(video_my_stream)
-        dataChannel.send('no_video:'+My_id)
-        
+        const senders = pc.getSenders()
+        senders.forEach((sender) => pc.removeTrack(sender))
+        if (dataChannel){
+            send_on_dc({'no_video':My_id})
+        }
         return
     }
 
@@ -247,11 +257,10 @@ function turn_camera(btn){
     btn.style.background = 'red'
     img_camera.src = camera_img
     my_stream()
-
-    // if (friend_name != My_name) {
-    //     initialize(My_name);
-    // }
-    
+    if (dataChannel){
+        CreateOffer()
+        send_on_dc({"connect_on_id": My_id})
+    }
 }
 
 function add_videoelement(srcObject_video,id=1) {
@@ -273,7 +282,6 @@ function add_videoelement(srcObject_video,id=1) {
         div.append(h2)
         div.append(video_element)
         raw.append(div)
-        console.log("here")
         return
     }
 
@@ -281,14 +289,14 @@ function add_videoelement(srcObject_video,id=1) {
 }
 
 video_film.addEventListener('pause',function(){
-    dataChannel.send('pause')
+    send_on_dc({'video':'pause'})
 })
 video_film.addEventListener('play',function(){
-    dataChannel.send('play')
+    send_on_dc({'video':'play'})
 })
 video_film.addEventListener('seeked',function(){
     if (!currentTime_film) {
-        dataChannel.send('seeked:' + video_film.currentTime)
+        send_on_dc({'video':'seeked','time':video_film.currentTime})
     }
 })
 
@@ -296,7 +304,7 @@ video_film.addEventListener('webkitfullscreenchange', function(){
     console.log(video_film.style)
 })
 
-let id_com;
+let id_com
 let style_div
 function btn_reply_ajax(btn){
     btn.parentNode.parentNode.parentNode.style.background = 'rgba(0, 0, 0, 0.5)'

@@ -4,6 +4,13 @@ from asgiref.sync import async_to_sync, sync_to_async
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from channels.layers import get_channel_layer
 from django.contrib.auth.models import User
+import redis
+
+# r = redis.StrictRedis(
+#     host='localhost',
+#     port=6379,
+# )
+# r.set("id",1,10)
 
 channel_layer = get_channel_layer()
 
@@ -11,7 +18,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
-
+        # print(r.get("id"))
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -49,16 +56,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def call_message(self, event):
         await self.send(text_data=json.dumps(event))
-
-    async def call(self, data):
-        try:
-            callee = await sync_to_async(User.objects.get)(name=data['name'])
-        except User.DoesNotExist:
-            return 'None', {"type": "chat.message", 'message': 'User does not connected!'}
-
-        return callee.channel_name, {
-            "type": "chat.message",
-            'calling': 'ok',
-            'callee': callee.name,
-            'room': self.room_name
-        }

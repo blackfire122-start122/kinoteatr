@@ -92,9 +92,7 @@
 						{% for f in reg.friends.all %}
 							<button value="{{ f.username }}" onclick="conn_user(this)" class="btn_friend">
 								<img class="friends_img" src="{{ f.img.url }}" alt="friend">
-								<div>
-									<p>{{ f.username }}</p>
-								</div>
+								<p>{{ f.username }}</p>
 							</button>
 							<br>
 						{% endfor %}
