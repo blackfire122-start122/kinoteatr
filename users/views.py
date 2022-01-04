@@ -18,13 +18,11 @@ years = years[::-1]
 
 def friend_no_index(request):
     user_account = user_ret(request)
-    if request.is_ajax():
-        try:
-            user_account.friends.remove(User.objects.get(pk=int(request.GET['id'])))
-        except:
-            return JsonResponse({"data_text":"Error"}, status=500)
-        return JsonResponse({"data_text":"OK"}, status=200)
-    return JsonResponse({"data_text":"Error"}, status=500)
+    try:
+        user_account.friends.remove(User.objects.get(pk=int(request.GET['id'])))
+    except:
+        return JsonResponse({"data_text":"Error"}, status=500)
+    return JsonResponse({"data_text":"OK"}, status=200)
 
 
 def dont_like(request):
@@ -44,36 +42,29 @@ def dont_like(request):
 
 def friend_no_add_index(request):
     user_account = user_ret(request)
-    if request.is_ajax():
-        try:
-            user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
-            return JsonResponse({"data_text":"OK"}, status=200)
-        except:
-            return JsonResponse({"data_text":"Error"}, status=500)
-    return JsonResponse({"data_text":"Error"}, status=500)
+    try:
+        user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
+        return JsonResponse({"data_text":"OK"}, status=200)
+    except:
+        return JsonResponse({"data_text":"Error"}, status=500)
 
 def friend_add_index(request):
     user_account = user_ret(request)
-    if request.is_ajax():
-        try:
-            friend = User.objects.get(pk=int(request.GET['id']))
-            user_account.friends.add(friend)
-            user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
-            return JsonResponse({"data_text":"OK"}, status=200)
-        except:
-            return JsonResponse({"data_text":"Error"}, status=500)
-    return JsonResponse({"data_text":"Error"}, status=500)
+    try:
+        friend = User.objects.get(pk=int(request.GET['id']))
+        user_account.friends.add(friend)
+        user_account.friends_want_add.remove(User.objects.get(pk=int(request.GET['id'])))
+        return JsonResponse({"data_text":"OK"}, status=200)
+    except:
+        return JsonResponse({"data_text":"Error"}, status=500)
 
 def friend_add(request):
     user_account = user_ret(request)
-    if request.is_ajax():
-        try:
-            User.objects.get(pk=int(request.GET['id'])).friends_want_add.add(user_account)
-            return JsonResponse({"data_text":"Submit"}, status=200)
-        except:
-            return JsonResponse({"data_text":"Error"}, status=500)
-    else:
-        return JsonResponse({"data_text":"No ajax"}, status=500)
+    try:
+        User.objects.get(pk=int(request.GET['id'])).friends_want_add.add(user_account)
+        return JsonResponse({"data_text":"Submit"}, status=200)
+    except:
+        return JsonResponse({"data_text":"Error"}, status=500)
 
 def all_users(request):
     user_account = user_ret(request)
@@ -106,7 +97,6 @@ def all_users(request):
 
 def exit(request):
     user_account = user_ret(request)
-    if request.is_ajax():
         request.session["id"] = None
         return JsonResponse({'status': 200, 'url':'/'})
 

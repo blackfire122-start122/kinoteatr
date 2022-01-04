@@ -74,6 +74,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:8000"
+]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("localhost", "6379")],
+        },
+    },
+}
 
 LANGUAGE_CODE = 'en-us'
 
@@ -88,23 +101,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1:8000"
-]
-
-# REDIS_HOST = os.environ.get('REDIS_HOST', 'webrtc-redis-server')
-# REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [("localhost", "6379")],
-        },
-    },
-}
 
 AUTH_USER_MODEL = 'users.User'
 
