@@ -30,8 +30,11 @@
 				{% endif %}
 			{% endfor %}
 		</div>
+		<button class='more' onclick="more_users(this)">More</button>
 		<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
 		<script>let url_ajax = "{% url 'ajax_add_friend' %}"
+				let url_more_users = "{% url 'ajax_more_users' %}"
+				let user_count = {{ user_count }}
 		</script>
 		<script src="{% static 'users/user_friend.js' %}"></script>
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
-from django.http import StreamingHttpResponse, JsonResponse
+from django.http import StreamingHttpResponse, JsonResponse,HttpResponse
 from .services import open_file
 from django.db.models import Q
 from django.contrib.auth import get_user_model
@@ -15,10 +15,12 @@ years = [i for i in range(2010,2022)]
 years.append("all")
 years = years[::-1]
 
-def find_films(str_url_type,str_url_genre,str_year):
+films_count = 50
+
+def find_films(str_url_type,str_url_genre,str_year,start,end):
     if str_year == 'all' and str_url_genre == 'all' and str_url_type == 'all':
         try:
-            films = Films.objects.all()[:50]
+            films = Films.objects.all()[start:end]
             return films
         except:
             return {}
@@ -37,10 +39,10 @@ def find_films(str_url_type,str_url_genre,str_year):
     try:
         if str_url_type == "Serial":
             del q_filters['type']
-            serials = Serials.objects.filter(*(i for i in q_filters.values()))
+            serials = Serials.objects.filter(*(i for i in q_filters.values()))[start:end]
             return serials
         else:
-            films = Films.objects.filter(*(i for i in q_filters.values()))
+            films = Films.objects.filter(*(i for i in q_filters.values()))[start:end]
             return films
     except:
         return {}
@@ -65,6 +67,18 @@ def like_ajax(request):
             return JsonResponse({"data_text":"OK"}, status=200)
         except:
             return JsonResponse({"data_text":"error"}, status=500)
+
+def more_films_ajax(request):
+    try:
+        films = find_films(request.GET["str_url_type"],
+            request.GET["str_url_genre"],
+            request.GET["str_year"],
+            int(request.GET["films_count_end"]),
+            int(request.GET["films_count"])
+        )
+        return render(request, "shablons/films_ajax.html",{"films":films})
+    except:
+        return JsonResponse({"data_text":"error"}, status=500)
 
 def comment_ajax(request):
     user = user_ret(request)
@@ -97,11 +111,11 @@ def comment_delete_ajax(request):
 def index(request):
     user = user_ret(request)
     try:
-        films = Films.objects.order_by('-year')
+        films = Films.objects.order_by('-year')[:films_count]
     except:
         pass
     if request.method == "POST" and request.POST["name_film"]!='all':
-        films = films.filter(name=request.POST["name_film"])[:50]
+        films = films.filter(name=request.POST["name_film"])[:films_count]
         name_film = request.POST["name_film"]
     return render(request, 
         "films/index.html",
@@ -113,6 +127,7 @@ def index(request):
         "str_genre":str_url_genre,
         "year":year,
         "reg": user,
+        "films_count":films_count
         }
 )
 
@@ -156,11 +171,11 @@ def tg(request,str_url_type,str_url_genre,str_year):
     user = user_ret(request)
     str_sort = "Type: "+str_url_type+" Genre: "+str_url_genre+" Year: "+str_year
     
-    films = find_films(str_url_type,str_url_genre,str_year)
+    films = find_films(str_url_type,str_url_genre,str_year,0,films_count)
 
     if request.method == "POST" and request.POST["name_film"]!='all':
         try:
-            films = films.filter(name=request.POST["name_film"])[:50]
+            films = films.filter(name=request.POST["name_film"])
         except:
             pass
         str_sort = "Type: "+str_url_type+" Genre: "+str_url_genre+" Year: "+str_year+" Name: "+request.POST['name_film']
@@ -183,7 +198,8 @@ def tg(request,str_url_type,str_url_genre,str_year):
         "str_sort":str_sort,
         "reg":user,
         "name_film":name_film,
-        'description': desc_genre
+        'description': desc_genre,
+        "films_count":films_count
         }
 )
 

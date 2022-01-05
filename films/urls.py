@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('like/ajax', views.like_ajax, name='like_ajax'),
+    path('more_films/ajax', views.more_films_ajax, name='more_films'),
     path('comment/ajax', views.comment_ajax, name='comment_ajax'),
     path('comment_delete/ajax', views.comment_delete_ajax, name='comment_delete_ajax'),
     path('about', views.about, name='about'),

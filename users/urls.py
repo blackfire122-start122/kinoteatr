@@ -5,6 +5,7 @@ from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetDon
 urlpatterns = [
     path('', views.all_users, name='all_users'),
     path('all_users/ajax', views.friend_add, name='ajax_add_friend'),
+    path('all_users_more/ajax', views.more_users_ajax, name='ajax_more_users'),    
     path('index/add/ajax', views.friend_add_index, name='ajax_index_add'),
     path('index/no_add/ajax', views.friend_no_add_index, name='ajax_index_no_add'),
     path('index/no_friend/ajax',views.friend_no_index, name='ajax_no_friend'),

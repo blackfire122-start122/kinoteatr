@@ -55,6 +55,7 @@
 				</div>
 			{% endfor %}
 		</div>
+		<button class='more' onclick="more_films(this)">More</button>
 		<div class="description">
 			<p>
 				{{ description }}
@@ -73,8 +74,13 @@
 	<script src="{% static 'films/jquery-3.6.0.min.js' %}"></script>
 	<script>
 		let url_like = "{% url 'like_ajax' %}"
+		let url_more_films = "{% url 'more_films' %}"
+		let str_url_type = "{{ str_type }}"
+		let str_url_genre = "{{ str_genre }}"
+		let str_year = "{{ year }}"
+		let films_count = "{{ films_count }}"
 	</script>
-	<script src="{% static 'films/like.js' %}">	</script>
+	<script src="{% static 'films/ajaxs.js' %}">	</script>
 
 	<style>
 		body {

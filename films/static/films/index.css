@@ -334,6 +334,17 @@ body{
 	color: white;
 	text-decoration: underline;
 }
+.more{
+	align-items: center;
+	border: none;
+	background-color: cyan;
+	border-radius: 10px;
+	font-size: 1.4em;
+	padding: 5px;
+	position: relative;
+	right: 0;
+	margin: 0 auto;
+}
 @media (max-width: 768px){
 	.req button{
 		position: relative;

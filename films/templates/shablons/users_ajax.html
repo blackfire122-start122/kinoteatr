@@ -1,0 +1,18 @@
+{% for u in users.all %}
+	{% if u.id != reg.id %}
+		<div class="user">
+			<div class="user_img_name">
+				<img class="img_user_one" src="{{ u.img.url }}" alt="img">
+				<h1>{{ u.username }}</h1>
+			</div>
+			<div class="btns_user">
+				{% if u in reg.friends.all %}
+					<p class='text_if_friend'>Friend</p>
+				{% else %}
+					<button value="{{ u.id }}" id="btn_{{u.username}}" onclick="btn_friend(this)" class="btn_friend">Add friend</button>
+				{% endif %}
+			</div>
+		</div>
+		<br>
+	{% endif %}
+{% endfor %}

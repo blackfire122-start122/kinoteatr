@@ -1,0 +1,39 @@
+{% for f in films %}
+	<div class="film">
+		<div class="on_img_{{ f.id }} on_img">
+			{% if f.typef %}
+				<a href="{% url 'film' f.typef f.id %}">
+			{% else %}
+				<a href="{% url 'film' "Serial" f.id %}">
+			{% endif %}
+			
+			<h2>{{ f.name }}</h2><br>
+			</a>
+			<div class="c_l">
+				{% for c in f.country.all %}
+					<p>{{ c }}</p>
+				{% endfor %}
+				{% if reg %}
+					<button onclick="like(this)" value="{{ f.id }}:{{ f.typef }}" class="like_btn">Like</button>
+				{% endif %}
+			</div>
+			<p class="year">{{ f.year }}</p>
+		</div>
+		<div class="genres">
+			{% for gen in  f.genres.all %}
+				<p> {{ gen }}  &nbsp;</p>
+			{% endfor %}
+		</div>
+		<div class="actors">
+			{% for act in  f.actors.all %}
+				<p> {{ act }}  &nbsp;</p>
+			{% endfor %}
+		</div>
+		<style>
+			.on_img_{{ f.id }}{
+				background-image: url({{ f.img_film.url }});
+				background-size: 270px,380px;
+			}
+		</style>
+	</div>
+{% endfor %}

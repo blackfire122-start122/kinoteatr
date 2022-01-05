@@ -16,6 +16,8 @@ years = [i for i in range(2010,2022)]
 years.append("all")
 years = years[::-1]
 
+user_count = 50
+
 def friend_no_index(request):
     user_account = user_ret(request)
     try:
@@ -76,10 +78,9 @@ def all_users(request):
         except:
             users = {}
         if request.POST['find_name'] == 'all':
-            users = User.objects.all()[:50]
+            users = User.objects.all()[:user_count]
     else:
-        users = User.objects.all()[:50]
-
+        users = User.objects.all()[:user_count]
 
     return render(request,
     "users/all_users.html",
@@ -92,13 +93,21 @@ def all_users(request):
     "reg":user_account,
     "all_users": users,
     "value_find":value_find,
+    "user_count":user_count
     }
 )
 
+def more_users_ajax(request):
+    try:
+        users = User.objects.all()[int(request.GET["user_count_end"]):int(request.GET["user_count"])]
+        return render(request, "shablons/users_ajax.html",{"users":users})
+    except:
+        return JsonResponse({"data_text":"error"}, status=500)
+
 def exit(request):
     user_account = user_ret(request)
-        request.session["id"] = None
-        return JsonResponse({'status': 200, 'url':'/'})
+    request.session["id"] = None
+    return JsonResponse({'status': 200, 'url':'/'})
 
 def user(request,user_name):
     user_account = user_ret(request)
