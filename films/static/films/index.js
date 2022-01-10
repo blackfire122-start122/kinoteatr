@@ -7,6 +7,7 @@ let msg_user = document.querySelector('#messageInput')
 let send_mes_btn = document.querySelector('#sendmesbtn')
 let video_film = document.querySelector('#video_film')
 let img_camera = document.querySelector('#img_camera')
+let img_mickrofone = document.querySelector('#img_mickrofone')
 let raw = document.querySelector('#raw')
 let friend = document.querySelector('#friends_block')
 let com_user = document.querySelector('#comment_user')
@@ -28,14 +29,9 @@ let config = {
     ]
 };
 
-const constraints = {
-    video: true,
-    audio: false
-};
-
 function connect() {
-    // conn = new WebSocket('wss://'+location.hostname +'/'+ friend_name+film_id)
-    conn = new WebSocket('ws://127.0.0.1:8000/' + friend_name+film_id)
+    conn = new WebSocket('wss://'+location.hostname +'/'+ friend_name+film_id)
+    // conn = new WebSocket('ws://127.0.0.1:8000/' + friend_name+film_id)
     conn.addEventListener('open', (e) => {
         console.log("Connected to the signaling server "+friend_name);
         initialize(My_name);
@@ -118,7 +114,8 @@ function initialize(username) {
             raw.removeChild(video_call_stream)
             return
         }
-        chatLog.value += (event.data + '\n')
+        chatLog.value += (data[keys[0]]+ ":" + data[keys[1]] + '\n')
+
     }
 
     dataChannel.onclose = function () {
@@ -149,13 +146,14 @@ function CreateOffer(){
         alert("Error creating an offer");
     })
 }
+let remoteStream = new MediaStream()
 
 function handleOffer(offer) {
-    let remoteStream = new MediaStream();
-
     pc.addEventListener('track', async (event) => {
         remoteStream.addTrack(event.track)
     })
+
+    window.stream = remoteStream
 
     pc.setRemoteDescription(offer)
         .then(() => {
@@ -186,10 +184,13 @@ function handleCandidate(candidate) {
 }
 
 function handleAnswer(answer) {
-    remoteStream = new MediaStream()
     pc.addEventListener('track', async (event) => {
+        console.log(event.track)
         remoteStream.addTrack(event.track)
     })
+
+    window.stream = remoteStream
+
     pc.setRemoteDescription(new RTCSessionDescription(answer))
         .then(() => {
             console.log('Set Remote Description for', friend_name)
@@ -209,25 +210,34 @@ function handleAnswer(answer) {
 }
 
 function sendMessage() {
-    send_on_dc({"My_name":msg_user.value})
+    send_on_dc({"name":My_name, "msg":msg_user.value})
     chatLog.value += (My_name+': '+msg_user.value + '\n')
     msg_user.value = ''
 }
 
-function my_stream() {
-    navigator.mediaDevices.getUserMedia(constraints)
+function my_stream_video() {
+    navigator.mediaDevices.getUserMedia({video: true,audio: false})
         .then(stream => {
-            localStream = stream
             add_videoelement(localStream,0)
-            let audioTrack = stream.getAudioTracks()
             let videoTrack = stream.getVideoTracks()
-            // audioTrack[0].enabled = true
             videoTrack[0].enabled = true
+            videoTrack[0].muted = false
+            localStream.addTrack(videoTrack[0])
         }).catch(error => {
         console.log('Error media', error)
     })
 }
-
+function my_stream_audio() {
+    navigator.mediaDevices.getUserMedia({video: false,audio: true})
+        .then(stream => {
+            let audioTrack = stream.getAudioTracks()
+            audioTrack[0].enabled = true
+            audioTrack[0].muted = false
+            localStream.addTrack(audioTrack[0])
+        }).catch(error => {
+        console.log('Error media', error)
+    })
+}
 function conn_user(btn){
     friend_name = btn.value
     connect()
@@ -243,7 +253,11 @@ function turn_camera(btn){
 
         localStream.getTracks().forEach(function(track) {
           track.stop()
+          if (track.kind == "video"){
+            track.stop()
+          }
         })
+
         raw.removeChild(video_my_stream)
         const senders = pc.getSenders()
         senders.forEach((sender) => pc.removeTrack(sender))
@@ -256,11 +270,29 @@ function turn_camera(btn){
     btn.value = 'off'
     btn.style.background = 'red'
     img_camera.src = camera_img
-    my_stream()
+    my_stream_video()
     if (dataChannel){
         CreateOffer()
         send_on_dc({"connect_on_id": My_id})
     }
+}
+function turn_mickrofone(btn){
+    if (btn.value == 'off'){
+        btn.value = 'on'
+        btn.style.background = '#8EABEC'
+        img_mickrofone.src = mickrofone_none_img
+
+        localStream.getTracks().forEach(function(track) {
+          if (track.kind == "audio"){
+            track.stop()
+          }
+        })
+        return
+    }
+    btn.value = 'off'
+    btn.style.background = 'red'
+    img_mickrofone.src = mickrofone_img
+    my_stream_audio()
 }
 
 function add_videoelement(srcObject_video,id=1) {

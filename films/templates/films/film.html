@@ -43,15 +43,15 @@
 			</div>
 		</content>
 		<div class="for_fs">
-		{% if film.typef %}
+		{% if film.typef == Film %}
 			<div class="video" id="video_div">
-				<video id="video_film" class="video_film" controls preload="auto" data-setup="{}">
+				<video controls controlsList="nodownload" id="video_film" class="video_film" controls prelad="auto">
 					<source src="{% url 'stream' "Film" film.id %}">
 				</video>
 			</div>
 		{% else %}
 			<div class="video" id="video_div">
-				<video id="video_film" class="video_film" controls preload="auto" data-setup="{}">
+				<video controls controlsList="nodownload" id="video_film" class="video_film" controls preload="auto">
 				</video>
 				<div class="sezons" id="sezons">
 					{% for s in film.sezons.all %}
@@ -79,6 +79,8 @@
 				<div class="form_input">
 					<div class="col-lg-12">
 					    <button onclick='turn_camera(this)' type="button" class="btn btn-success" id="getMedia"><img src="{% static 'films/images/camera_none.png' %}" id='img_camera' class='img_camera'></button>
+
+					    <button onclick='turn_mickrofone(this)' type="button" class="btn btn-success" id="getMedia"><img src="{% static 'films/images/mickrofone_none.png' %}" id='img_mickrofone' class='img_camera'></button>
 					</div>
 					<button id="fullscreen_btn" class='btn-primary' onclick="toggleFullscreen(this)">fullscreen</button>
 				</div>
@@ -145,7 +147,9 @@
 			let My_name = "{{ reg.username }}"
 			let My_id = "{{ reg.id }}"
 			let camera_img = "{% static 'films/images/camera.png' %}"
+			let mickrofone_img = "{% static 'films/images/mickrofone.png' %}"
 			let camera_none_img = "{% static 'films/images/camera_none.png' %}"
+			let mickrofone_none_img = "{% static 'films/images/mickrofone_none.png' %}"
 			let comment_ajax = "{% url 'comment_ajax' %}"
 			let comment_delete_ajax = "{% url 'comment_delete_ajax' %}"
 			let film_id = "{{ film.id }}"
